@@ -1,0 +1,23 @@
+{
+    "name": "misterphilip/maintenance-mode",
+    "description": "An enhanced drop-in replacement for Laravel 5's maintenance mode",
+    "keywords": ["laravel", "laravel5" ,"l5", "maintenance"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philip Lawrence",
+            "email": "philip@misterphilip.com",
+            "homepage": "http://misterphilip.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.0 - 5.1",
+        "nesbot/carbon": "~1.19"
+    },
+    "autoload": {
+        "psr-0": {
+            "MisterPhilip\\MaintenanceMode": "src/"
+        }
+    }
+}

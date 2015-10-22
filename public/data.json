@@ -1,0 +1,3 @@
+{
+	"total":"2",
+	"rows":[{"id_config":"1","config_key":"companytitle","config_desc":"Name of Company","config_value":"BIAS"},{"id_config":"2","config_key":"pages","config_desc":"jumlah row per page","config_value":"5"}]}

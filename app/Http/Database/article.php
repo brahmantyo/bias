@@ -1,0 +1,10 @@
+<?php namespace App\Http\Database;
+
+use Illuminate\Database\Eloquent\Model;
+
+class article extends Model {
+
+	
+	protected $table = 'article';
+
+}
