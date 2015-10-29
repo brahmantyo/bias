@@ -12,12 +12,11 @@ use App\Helpers as Helpers;
 |
 */
 
-Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Admin'],function()
+Route::group([/*'middleware'=>['auth'],*/'prefix'=>'admin','namespace'=>'Admin'],function()
 {
 	//-- Base --//
 	Route::get('/',function(){
-
-		return view('admin.index')->with('menu',\Menu::get('mastermenu'));
+		return view('admin.index');
 	});
 	Route::resource('group','GroupController');
 	Route::resource('user','UserController');

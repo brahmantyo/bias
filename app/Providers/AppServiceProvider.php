@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider {
 
         //set user and group (sementara, sblm auth diaktifkan)
         //Config::set('user',1);
-        Config::set('group',-1);
+        Config::set('group',1);
         $settings =  setting::all();
         foreach($settings as $item){
             Config::set($item->config_key,$item->config_value);
@@ -76,7 +76,7 @@ class AppServiceProvider extends ServiceProvider {
 
             $menu->add('About','about',['class'=>'treeview'])->data('permission','menu_about');
         })->filter(function($item){
-            if(\Config::get('group')<0){
+            if(Config::get('group')<0){
                 return true;
             }else{
                 foreach (Config::get('privileges') as $p) {
@@ -87,6 +87,7 @@ class AppServiceProvider extends ServiceProvider {
             }
             return false;
         });
+        Config::set('menu',Menu::get('mastermenu'));
 
         // End of Setting All Menu
 
@@ -136,7 +137,7 @@ class AppServiceProvider extends ServiceProvider {
 			'kota'=>$dkota,
 			'satuan'=>$dsatuan,
 			'cabang'=>$dcabang,*/
-			'menu'=>Menu::get('menumaster'),
+			'menu'=>Config::get('menu'),
 			'notification'=>[
 				'all'=>0,
 				'quote'=>NULL,

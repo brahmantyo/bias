@@ -21,7 +21,6 @@ class AdminMiddleware {
 	public function handle($request, Closure $next)
 	{
 		if(!$this->auth->guest()){
- 			
 			return $next($request);
 		}
 		return redirect('/');
