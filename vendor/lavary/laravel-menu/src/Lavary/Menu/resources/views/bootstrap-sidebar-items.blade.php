@@ -22,6 +22,6 @@
     @endif
   </li>
   @if($item->divider)
-  	<li{{!! Lavary\Menu\Builder::attributes($item->divider) !!}}></li>
+  	<li{!! Lavary\Menu\Builder::attributes($item->divider) !!}></li>
   @endif
 @endforeach

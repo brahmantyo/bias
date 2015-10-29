@@ -40,8 +40,7 @@ class Authenticate {
 			}
 			else
 			{
-				//return view('auth.login');
-				return redirect('/');
+				return view('auth.login');
 			}
 		}
 

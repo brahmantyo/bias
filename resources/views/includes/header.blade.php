@@ -7,12 +7,15 @@
         $home = '/admin';
 
     ?>
-    <a href="{{ $home }}" class="logo hidden-xs">{{\Config::get('companytitle')}}</a>
+    <a href="{{ $home }}" class="logo hidden-xs">
+        <h3>{{\Config::get('companytitle')}}</h3>
+        <h6>{{\Config::get('appname')}}</h6>
+    </a>
 
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a href="{{$home}}" class="hidden-sm hidden-md hidden-lg col-xs-12 label label-warning">{{\Config::get('companytitle')}}</a>
+        <a href="{{$home}}" class="hidden-sm hidden-md hidden-lg col-xs-12 label label-warning">{{\Config::get('companytitle')}} - {{\Config::get('appname')}}</a>
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
         </a>

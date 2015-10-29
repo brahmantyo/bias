@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Application Name | Dashboard</title>
+    <title>{{\Config::get('appname')}} | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="_token" content="{{ csrf_token() }}"/>
     <!-- Bootstrap 3.3.2 -->
@@ -93,12 +93,8 @@
                 @yield('content')
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                Press F1 for help
-            </div>
-            <b>Version</b> {{\Config::get('appversion')}} || <strong>Copyright &copy; 2014-2015 <a href="#">Niclogic</a>.</strong> All rights reserved.
-        </footer>
+        @include('includes.footer')
+
     </div><!-- ./wrapper -->
 
     <script type="text/javascript">

@@ -2,8 +2,8 @@
 
 @section('content-header')
 <ol class="breadcrumb">
-    <li><a href="/"><i class="fa fa-dashboard"></i>Home</a></li>
-    <li><a href="/konsumen"><i class="fa fa-users"></i>Master Konsumen</a></li>
+    <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+    <li><a href="/admin/konsumen"><i class="fa fa-users"></i>Master Konsumen</a></li>
     <li class="active">Add</li>
 </ol>
 @endsection
@@ -23,38 +23,15 @@
                 @endforeach
             @endif
 
-            {!! Form::open(['role' => 'form', 'url' => '/konsumen/create']) !!}
-
-                <div class='form-group'>
-                    {!! Form::label('nama', 'Nama') !!}
-                    {!! Form::text('nama', old('nama'), ['placeholder' => 'Nama', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('alamat', 'Alamat') !!}
-                    {!! Form::text('alamat', old('alamat'), ['placeholder' => 'Alamat', 'class' => 'form-control']) !!}
-                </div>
-                <div class="form-group">
-                    {!! Form::label('kota','Kota') !!}
-                    {!! Form::select('kota',array_merge(['--Pilih Kota--'],$kota),old('kota'),['class'=>'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('telp', 'Telp') !!}
-                    {!! Form::text('telp', old('telp'), ['placeholder' => 'Telp', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('email', 'Email') !!}
-                    {!! Form::email('email', old('email'), ['placeholder' => 'Email', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('contact', 'Contact') !!}
-                    {!! Form::text('contact', old('contact'), ['placeholder' => 'Contact', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    {!! Form::button('Cancel', ['class' => 'btn btn-info','onclick'=>'window.history.back()']) !!}
-                </div>
-
+            {!! Form::open(['role' => 'form', 'url' => '/admin/konsumen/', 'class' => 'form-horizontal']) !!}
+                {!! Form::itext('nama','Nama Perusahaan','Nama Perusahaan Konsumen',old('nama'),true) !!}
+                {!! Form::itext('alamat','Alamat','Alamat Perusahaan',old('alamat'),true) !!}
+                {!! Form::itext('telp','Telepon','Nomer Telepon',old('telp'),true) !!}
+                {!! Form::itext('email','Email','Email Address',old('email'),true) !!}
+                {!! Form::itext('contact','Contact Person','Name of Contact Person',old('contact'),true) !!}
+                {!! Form::bsubmit('Save',['back'=>'Cancel']) !!}
             {!! Form::close() !!}
+
             </div>
         </div>
     </div>

@@ -155,6 +155,7 @@ return [
 		
 		'MisterPhilip\MaintenanceMode\MaintenanceModeServiceProvider',
 	    'MisterPhilip\MaintenanceMode\MaintenanceCommandServiceProvider',
+	    //'App\Providers\MenuServiceProvider',
 
 	],
 

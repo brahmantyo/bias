@@ -2,8 +2,8 @@
 
 @section('content-header')
 <ol class="breadcrumb">
-    <li><a href="/"><i class="fa fa-dashboard"></i>Home</a></li>
-    <li><a href="/user"><i class="fa fa-dashboard"></i>User Manager</a></li>
+    <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
+    <li><a href="/admin/user"><i class="fa fa-dashboard"></i>User Manager</a></li>
     <li class="active">Edit</li>
 </ol>
 @endsection
@@ -22,55 +22,21 @@
                         <div class='bg-danger alert'>{{ $error }}</div>
                     @endforeach
                 @endif
-             
-                {!! Form::model($user, ['role' => 'form', 'url' => '/user/' . $user->id, 'method' => 'PUT']) !!}
-             
-                <div class='form-group'>
-                    {!! Form::label('first_name', 'First Name') !!}
-                    {!! Form::text('first_name', null, ['placeholder' => 'First Name', 'class' => 'form-control']) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::label('last_name', 'Last Name') !!}
-                    {!! Form::text('last_name', null, ['placeholder' => 'Last Name', 'class' => 'form-control']) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::label('name', 'Name') !!}
-                    {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
-                </div>
 
-                <div class="form-group">
-                    {!! Form::label('level', 'Level') !!}
-                    {!! Form::select('level', array_merge(array($user->level => $user->level),['SUPER'=>'SUPER','MANAGER'=>'MANAGER','STAFF'=>'STAFF']), $user->level) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::label('email', 'Email') !!}
-                    {!! Form::email('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
-                </div>
+                {!! Form::model($user, ['role' => 'form', 'url' => '/admin/user/' . $user->id, 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+                    {!! Form::itext('firstname','First Name','First Name of User',$user->firstname) !!}
+                    {!! Form::itext('lastname','Last Name','Last Name of User',$user->lastname) !!}
+                    {!! Form::itext('login','Login ID','Login ID',$user->name,true) !!}
+                    {!! Form::itext('email','Email','Email Address',$user->email,true) !!}
+                    {!! Form::iselect('group','Group',$groups,$user->groupid,true) !!}
 
-                <div class='form-group'>
-                    {!! Form::label('photo', 'Photo') !!}
-                    <img src="{{ asset($user->photo) }}" class="user-image" alt="User Image"/>
-                    {!! Form::hidden('photo', $filename, ['class' => 'form-control']) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::label('password', 'Password') !!}
-                    {!! Form::password('password', ['placeholder' => 'Password :: Kosongan jika tidak berubah', 'class' => 'form-control']) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::label('password_confirmation', 'Confirm Password') !!}
-                    {!! Form::password('password_confirmation', ['placeholder' => 'Confirm Password :: Kosongan jika tidak berubah', 'class' => 'form-control']) !!}
-                </div>
-             
-                <div class='form-group'>
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                </div>
-             
+                    {!! Form::ipassword('password','Password','Password',$user->password,true) !!}
+                    {!! Form::ipassword('password_confirmation','Confirmation','Password Confirmation',$user->password,true) !!}
+                    {!! Form::icheckbox('status','Status',$user->status,'Enabled') !!}
+
+                    {!! Form::bsubmit('Save',['back'=>'Cancel']) !!}
                 {!! Form::close() !!}
+
              
             </div>
         </div>

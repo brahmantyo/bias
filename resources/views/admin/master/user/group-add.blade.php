@@ -27,7 +27,7 @@
                     {!! Form::itext('groupname','Group Name','Name of Group',old('groupname')) !!}
                     {!! Form::iselect('groupparent','Group Parent',$parents,old('parent')) !!}
                     {!! Form::icheckbox('status','Status',old('status'),'Enabled') !!}
-                    {!! Form::bsubmit('Simpan') !!}
+                    {!! Form::bsubmit('Simpan',['back'=>'Cancel']) !!}
                 {!! Form::close() !!}
              
             </div>

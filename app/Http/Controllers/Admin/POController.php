@@ -10,6 +10,14 @@ use App\Http\Database\po;
 
 class POController extends Controller
 {
+    public function getAllpo()
+    {
+        $po = po::leftJoin('msupplier AS s','s.idsupp','=','po.idsupp')
+            ->where('status','>','0')
+            ->orderBy('tglpo','desc')
+            ->paginate(\Config::get('pages'));
+        return $po->toJson();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,8 @@ class POController extends Controller
             ->where('status','>','0')
             ->orderBy('tglpo','desc')
             ->paginate(\Config::get('pages'));
-        return view('admin.transaction.po')->with('po',$po);    }
+        return view('admin.transaction.po')->with('po',$po);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -88,7 +97,10 @@ class POController extends Controller
     public function destroy($id)
     {
         $po = po::find(str_replace('-','/',$id));
-        $po->delete();
-        return redirect('/admin/po');
+        if($po->detail->count()){
+            return redirect()->back()->withErrors(['Data tidak dapat di hapus']);
+        }
+        //$po->delete();
+        return redirect('/admin/po')->withErrors(['Data sudah terhapus']);
     }
 }

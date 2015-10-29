@@ -12,8 +12,7 @@
 		<div class="box">
 			<div class="box-header">
 		    	<span><h1><i class="fa fa-user-secret"></i>User Manager</h1></span>
-		    	<hr>
-		    	<span class="pull-right"><a href="/user/create" class="btn btn-success">Add User</a></span>
+		    	<span class="pull-right"><a href="/admin/user/create" class="btn btn-success">Add User</a></span>
 		 	</div>
 		 	<div class="box-body table-responsive">
 		        <table class="table table-condensed table-striped table-bordered table-hover no-margin">
@@ -32,16 +31,16 @@
 		            <tbody>
 		                @foreach ($users as $user)
 		                <tr>
-		                    <td>{{ $user->getFullName() }}</td>
+		                    <td>{{ $user->firstname.' '.$user->lastname }}</td>
 		                    <td>{{ $user->name }}</td>
 		                    <td>{{ $user->email }}</td>
-		                    <td>{{ $user->level }}</td>
-		                    <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
-		                    <td>{{ $user->updated_at->format('F d, Y h:ia') }}</td>
+		                    <td>{{ $user->groupname }}</td>
+		                    <td>{{ $user->created_at->format('d M Y h:ia') }}</td>
+		                    <td>{{ $user->updated_at->format('d M Y h:ia') }}</td>
 		                    <td>
-		                        <a href="/user/{{ $user->id }}" class="btn btn-warning pull-left" style="margin-right: 3px;">View</a>
-		                        <a href="/user/{{ $user->id }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-		                        {!! Form::open(['url' => '/user/' . $user->id, 'method' => 'DELETE']) !!}
+		                        <a href="/admin/user/{{ $user->id }}" class="btn btn-warning pull-left" style="margin-right: 3px;">View</a>
+		                        <a href="/admin/user/{{ $user->id }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+		                        {!! Form::open(['url' => '/admin/user/' . $user->id, 'method' => 'DELETE']) !!}
 		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
 		                        {!! Form::close() !!}
 		                    </td>

@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Database\user;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,6 +8,10 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Hash;
+use Config;
+use App\Http\Database\user;
+use App\Http\Database\group;
+
 
 class AuthController extends Controller {
 
@@ -51,6 +54,7 @@ class AuthController extends Controller {
 	
 	public function postLogin(Request $request)
 	{
+		echo 'login';
 	    $this->validate($request, [
 	        'name' => 'required',
 	        'password' => 'required',
@@ -58,7 +62,7 @@ class AuthController extends Controller {
 
 	    $credentials = $request->only('name', 'password');
 	    try {
-		    $user = \App\Http\Database\user::where('name','=',$credentials['name'])->firstOrFail();
+		    $user = user::where('name','=',$credentials['name'])->firstOrFail();
 		    
 	    } catch(ModelNotFoundException $e){
 		    return redirect('/')
@@ -71,6 +75,13 @@ class AuthController extends Controller {
 	    if($user){
 	    	session()->regenerate();
 	    	Session::put('user',$user);
+	    	Config::set('user',$user->id);
+
+	    	$group = group::find($user->groupid);
+	    	if($group->count()){
+	    		Config::set('group',$group->groupid);
+	    	}
+	    	
 		}
 	    if ($this->auth->attempt($credentials, $request->has('remember')))
 	    {

@@ -1,18 +1,21 @@
 <?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use View;
-use Config;
 
-use App\setting;
-use App\Helpers as Helpers;
-use Illuminate\Support\Collection;
 // Priveleges
 use App\Http\Database\privileges as privileges;
 use App\Http\Database\privileges_group as privileges_group;
 use App\Http\Database\privileges_user as privileges_user;
+use App\setting;
+
 //
+use Config;
+use View;
 use Menu;
+
+use App\Helpers as Helpers;
+use Illuminate\Support\Collection;
+
 //
 use App\Http\Database\article as Article;
 use App\Http\Database\kota as Kota;
@@ -32,41 +35,61 @@ class AppServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 
-		$settings =  setting::all();
-		foreach($settings as $item){
-			Config::set($item->config_key,$item->config_value);
-		}
+        //set user and group (sementara, sblm auth diaktifkan)
+        //Config::set('user',1);
+        Config::set('group',-1);
+        $settings =  setting::all();
+        foreach($settings as $item){
+            Config::set($item->config_key,$item->config_value);
+        }
 
-		//$privileges = array();
-		$privileges = privileges_group::select('p.privilegesid as id','p.privilegesname as name','p.privilegesdesc as desc')
-			->leftJoin('mprivileges as p','p.privilegesid','=','mprivileges_group.privilegesid')
-			->where('mprivileges_group.groupid','=',7)->get();
-
-		Config::set('privileges',$privileges);
-
-		Menu::make('mastermenu',function($menu){
-			$menu->raw('My Menu',['class'=>'header'])->data('permission','root_menu');
-			$menu->add('Master')->data('permission','root_menu_master');
-			$menu->item('master')->add('Cabang','cabang')->data('permission','menu_cabang');
-			$menu->item('master')->add('Barang','admin/barang')->data('permission','menu_barang');
-			$menu->add('Transaksi')->data('permission','root_menu_transaksi');
-			$menu->item('transaksi')->add('Purchase Order','admin/po')->data('permission','menu_po');
-			$menu->add('About','about',['class'=>'treeview']);
-		})->filter(function($item){
-			$privileges = Config::get('privileges')->where('name',$item->data('permission'));
-			if($privileges->count()){
-				return true;
-			}
-			return false;
-		});
+        
+        $privileges = privileges_group::select('p.privilegesid as id','p.privilegesname as name','p.privilegesdesc as desc')
+            ->leftJoin('mprivileges as p','p.privilegesid','=','mprivileges_group.privilegesid')
+            ->where('mprivileges_group.groupid','=',Config::get('group'))->get();
+        Config::set('privileges',$privileges);
 
 
 
+        //Setting All Menu Here ... !
+        Menu::make('mastermenu',function($menu){
+            $menu->raw('My Menu',['class'=>'header'])->data('permission','root_menu');
+            $menu->add('Base')->data('permission','root_menu_base');
+            $menu->item('base')->add('User','admin/user')->data('permission','menu_user');
+            $menu->item('base')->add('Group','admin/group')->data('permission','menu_group');
+            $menu->item('base')->add('Privileges','admin/privileges')->data('permission','menu_privileges');
+            $menu->item('base')->add('Permission','admin')->data('permission','menu_permission');
+            
 
+            $menu->add('Master')->data('permission','root_menu_master');
+            $menu->item('master')->add('Cabang','admin/cabang')->data('permission','menu_cabang');
+            $menu->item('master')->add('Barang','admin/barang')->data('permission','menu_barang');
+            
+            $menu->item('master')->add('Supplier','admin/supplier')->data('permission','menu_supplier');
+            $menu->item('master')->add('Konsumen','admin/konsumen')->data('permission','menu_konsumen');
+            $menu->item('master')->add('Sales','admin/sales')->data('permission','menu_sales');
 
+            $menu->add('Transaksi')->data('permission','root_menu_transaksi');
+            $menu->item('transaksi')->add('Purchase Order','admin/po')->data('permission','menu_po');
+            $menu->item('transaksi')->add('Pembelian','admin/pembelian')->data('permission','menu_beli');
+            $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_jual');
 
-		//$arr = Config::get('privileges');
-		//var_dump(array_values(input)$arr->has());die;
+            $menu->add('About','about',['class'=>'treeview'])->data('permission','menu_about');
+        })->filter(function($item){
+            if(\Config::get('group')<0){
+                return true;
+            }else{
+                foreach (Config::get('privileges') as $p) {
+                    if($p->name===$item->data('permission')){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+
+        // End of Setting All Menu
+
 		date_default_timezone_set('Asia/Jakarta');
 /*
 		$abouts  = array();
@@ -113,7 +136,7 @@ class AppServiceProvider extends ServiceProvider {
 			'kota'=>$dkota,
 			'satuan'=>$dsatuan,
 			'cabang'=>$dcabang,*/
-			'menu'=>Menu::get('mastermenu'),
+			'menu'=>Menu::get('menumaster'),
 			'notification'=>[
 				'all'=>0,
 				'quote'=>NULL,

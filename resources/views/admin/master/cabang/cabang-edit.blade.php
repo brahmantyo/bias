@@ -23,31 +23,17 @@
                 @endforeach
             @endif
 
-            {!! Form::open(['role' => 'form', 'url' => '/cabang/edit/'.$cabang->idcabang]) !!}
-
-                <div class='form-group'>
-                    {!! Form::label('nama', 'Nama') !!}
-                    {!! Form::text('nama', $cabang->nama, ['placeholder' => 'Nama', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('alamat', 'Alamat') !!}
-                    {!! Form::text('alamat', $cabang->alamat, ['placeholder' => 'Alamat Cabang', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::label('telp', 'Telephone') !!}
-                    {!! Form::text('telp', $cabang->telp, ['placeholder' => 'Telephone Cabang', 'class' => 'form-control']) !!}
-                </div>
-                <div class='form-group'>
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    {!! Form::button('Cancel', ['class' => 'btn btn-info','onclick'=>'window.history.back()']) !!}
-                </div>
-
+            {!! Form::open(['role' => 'form', 'url' => '/admin/cabang/'.$cabang->idcabang,'method'=>'PUT', 'class' => 'form-horizontal']) !!}
+                {!! Form::itext('nama','Nama Cabang','Nama Cabang',$cabang->nama,true) !!}
+                {!! Form::itext('alamat','Alamat Cabang','Alamat Cabang',$cabang->alamat,true) !!}
+                {!! Form::itext('telp','Telp Cabang','Telepon Cabang',$cabang->telp,true) !!}
+                {!! Form::bsubmit('Simpan',['back'=>'Cancel']) !!}
             {!! Form::close() !!}
+
+
+
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-        $('input[name="telp"]').inputmask("999[9] 9999-999[99]");
-</script>
 @endsection

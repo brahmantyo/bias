@@ -12,7 +12,7 @@
 			<div class="box-header">
 		    	<span><h1><i class="fa fa-users"></i>Master Konsumen</h1></span>
 		    	<hr>
-				<span class="pull-right"><a class="btn btn-success	" id="tambah" href="/konsumen/create">Tambah</a></span>		    	
+				<span class="pull-right"><a class="btn btn-success	" id="tambah" href="/admin/konsumen/create">Tambah</a></span>		    	
 		 	</div>
             @if ($errors->has())
                 @foreach ($errors->all() as $error)
@@ -26,11 +26,10 @@
 						<tr style="font-weight: bold">
 							<td>NAMA</td>
 							<td>ALAMAT</td>
-							<td>KOTA</td>
 							<td>TELP</td>
 							<td>CONTACT</td>
 							<td>EMAIL</td>
-							<td width="135"></td>
+							<td width="150"></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,13 +37,14 @@
 						<tr>
 							<td>{{ $list->nama }}</td>
 							<td>{{ $list->alamat }}</td>
-							<td>{{ $kota[$list->kota] }}</td>
 							<td>{{ $list->notelp }}</td>
 							<td>{{ $list->cp }}</td>
 							<td>{{ $list->email }}</td>
 							<td>
-								<a class="btn btn-info" href="/konsumen/edit/{{$list->idkonsumen}}">Edit</a>
-								<a class="btn btn-warning" href="/konsumen/delete/{{$list->idkonsumen}}">Hapus</a>
+								<a class="btn btn-info pull-left" href="/admin/konsumen/{{$list->idkonsumen}}/edit" style="margin-right: 3px;">Edit</a>
+								{!! Form::open(['url' => '/admin/konsumen/' . $list->idkonsumen, 'method' => 'DELETE']) !!}
+		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+		                        {!! Form::close() !!}
 							</td>
 						</tr>
 						@endforeach

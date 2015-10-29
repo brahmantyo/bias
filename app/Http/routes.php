@@ -12,17 +12,23 @@ use App\Helpers as Helpers;
 |
 */
 
-Route::group(['prefix'=>'admin','namespace'=>'Admin'],function()
+Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Admin'],function()
 {
 	//-- Base --//
-	/*
-	Route::resource('user','UserController');
-	*/
-	Route::get('/','AdminController@index');
-	//-- Master --//
+	Route::get('/',function(){
+
+		return view('admin.index')->with('menu',\Menu::get('mastermenu'));
+	});
 	Route::resource('group','GroupController');
 	Route::resource('user','UserController');
+	
+	Route::controller('privileges','PrivilegesController');
+
+
+	//-- Master --//
 	Route::resource('cabang','CabangController');
+	Route::resource('supplier','SupplierController');
+	
 	Route::resource('kota','KotaController');
 	Route::resource('pegawai','PegawaiController');
 	Route::resource('konsumen','KonsumenController');
@@ -31,7 +37,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function()
 
 	//-- Reports --//
 	Route::resource('po','POController');	
-	Route::controller('pembelian','PembelianController');
+	//Route::resource('pembelian','PembelianController');
 	Route::controller('penjualan','PenjualanController');
 	//-- Utility --//
 	/*
@@ -39,8 +45,12 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function()
 	*/
 
 });
+Route::group(['middleware'=>'auth'],function(){
+	Route::get('/','HomeController@index');	
+});
 
-Route::get('/','HomeController@index');
+
+
 Route::get('test',function(){
 	//var_dump(Menu::get('mastermenu'));
 	//var_dump(Menu::get('mastermenu')->item('kota')->data('permission'));die;

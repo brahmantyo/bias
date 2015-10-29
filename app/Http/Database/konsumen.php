@@ -13,10 +13,10 @@ class konsumen extends Model {
 	protected $hidden = ['syn'];
 	public function user()
 	{
-		return $this->belongsTo(User,'iduser');
+		return $this->belongsTo(User,'id','iduser');
 	}
-	public function dtkota()
+/*	public function dtkota()
 	{
 		return $this->belongsTo(Kota,'kota','idkota');
-	}
+	}*/
 }

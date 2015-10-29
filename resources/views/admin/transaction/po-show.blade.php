@@ -20,7 +20,7 @@ User Manager
  
     <div class="well col-lg-12">
         <div class="col-lg-12">
-            <table height="100%">
+            <table height="100%" class="table table-condensed table-striped table-bordered no-margin">
                 <tr><td>ID PO</td><td> : {{ $po->idpo }}</td></tr>
                 <tr><td>Tanggal</td><td> : {{ $po->tglpo }}</td></tr>
                 <tr><td>Supplier</td><td> : {{ $po->idsupp }}</td></tr>

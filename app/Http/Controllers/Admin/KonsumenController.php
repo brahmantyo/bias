@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Validator;
+use App\Http\Database\konsumen;
 
 class KonsumenController extends Controller {
 
@@ -14,7 +16,8 @@ class KonsumenController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$konsumen = konsumen::orderBy('tgldaftar')->paginate(\Config::get('pages'));
+		return view('admin.master.konsumen.konsumen')->with('konsumen',$konsumen);
 	}
 
 	/**
@@ -24,7 +27,7 @@ class KonsumenController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return view('admin.master.konsumen.konsumen-add');
 	}
 
 	/**
@@ -32,9 +35,28 @@ class KonsumenController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+		$rules = [
+			'nama' => 'required|unique:mkonsumen,nama',
+			'alamat' => 'required',
+			'telp' => 'required|numeric',
+			'email' => 'email',
+			'contact' => 'required'
+		];
+		$v = Validator::make($request->all(),$rules);
+		if($v->fails()){
+			return redirect()->back()->withInput()->withErrors($v->errors());
+		}
+		$konsumen = new konsumen;
+		$konsumen->nama = $request->input('nama');
+		$konsumen->alamat = $request->input('alamat');
+		$konsumen->notelp = $request->input('telp');
+		$konsumen->email = $request->input('email');
+		$konsumen->cp = $request->input('contact');
+		$konsumen->tgldaftar = Date('Y-m-d');
+		$konsumen->save();
+		return redirect('/admin/konsumen');
 	}
 
 	/**
@@ -56,7 +78,8 @@ class KonsumenController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$konsumen = konsumen::find($id);
+		return view('admin.master.konsumen.konsumen-edit')->with('konsumen',$konsumen);
 	}
 
 	/**
@@ -65,9 +88,27 @@ class KonsumenController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$rules = [
+			'nama' => 'required|unique:,mkonsumen,nama',
+			'alamat' => 'required',
+			'telp' => 'required|numeric',
+			'email' => 'email',
+			'contact' => 'required'
+		];
+		$v = Validator::make($request->all(),$rules);
+		if($v->fails()){
+			return redirect()->back()->withInput()->withErrors($v->errors());
+		}
+		$konsumen = konsumen::find($id);
+		$konsumen->nama = $request->input('nama');
+		$konsumen->alamat = $request->input('alamat');
+		$konsumen->notelp = $request->input('telp');
+		$konsumen->email = $request->input('email');
+		$konsumen->cp = $request->input('contact');
+		$konsumen->save();
+		return redirect('/admin/konsumen');
 	}
 
 	/**
@@ -78,7 +119,8 @@ class KonsumenController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		$konsumen = konsumen::find($id)->delete();
+		return redirect('/admin/konsumen');
 	}
 
 }

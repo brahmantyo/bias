@@ -24,48 +24,19 @@
                 @endforeach
             @endif
 
-            {!! Form::open(['role' => 'form', 'url' => '/user']) !!}
+            {!! Form::open(['role' => 'form', 'url' => '/admin/user', 'class' => 'form-horizontal']) !!}
+                {!! Form::itext('firstname','First Name','First Name of User',old('firstname')) !!}
+                {!! Form::itext('lastname','Last Name','Last Name of User',old('lastname')) !!}
+                {!! Form::itext('name','User Name','Login ID / Username for authenticated',old('name'),true) !!}
+                {!! Form::itext('email','Email','Email of User',old('email'),true) !!}
+                {!! Form::iselect('group','Group',$groups,old('group'),true) !!}
+                {!! Form::ipassword('password','Password') !!}
+                {!! Form::ipassword('password_confirmation','Password Confirm') !!}
+                {!! Form::icheckbox('status','Status',true,'',true) !!}
 
-                <div class='form-group'>
-                    {!! Form::label('first_name', 'First Name') !!}
-                    {!! Form::text('first_name', null, ['placeholder' => 'First Name', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::label('last_name', 'Last Name') !!}
-                    {!! Form::text('last_name', null, ['placeholder' => 'Last Name', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::label('name', 'Name') !!}
-                    {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::label('email', 'Email') !!}
-                    {!! Form::email('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('level', 'Level') !!}
-                    {!! Form::select('level', ['SUPER'=>'SUPER','MANAGER'=>'MANAGER','STAFF'=>'STAFF']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::label('password', 'Password') !!}
-                    {!! Form::password('password', ['placeholder' => 'Password', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::label('password_confirmation', 'Confirm Password') !!}
-                    {!! Form::password('password_confirmation', ['placeholder' => 'Confirm Password', 'class' => 'form-control']) !!}
-                </div>
-
-                <div class='form-group'>
-                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                </div>
-
+                {!! Form::bsubmit('Simpan',['back'=>'Cancel']) !!}
             {!! Form::close() !!}
+
             </div>
         </div>
     </div>

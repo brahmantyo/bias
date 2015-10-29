@@ -12,7 +12,6 @@ class Kernel extends HttpKernel {
 	protected $middleware = [
 		//'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
 		'MisterPhilip\MaintenanceMode\Http\Middleware\CheckForMaintenanceMode',
-
 		'Illuminate\Cookie\Middleware\EncryptCookies',
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
@@ -27,7 +26,6 @@ class Kernel extends HttpKernel {
 	 */
 	protected $routeMiddleware = [
 		'admin' => 'App\Http\Middleware\AdminMiddleware',
-		'konsumen' => 'App\Http\Middleware\KonsumenMiddleware',
 		'auth' => 'App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',

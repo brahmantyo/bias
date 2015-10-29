@@ -12,7 +12,6 @@
 		<div class="box">
 			<div class="box-header">
 		    	<span><h1><i class="fa fa-user-secret"></i>Group User Administration</h1></span>
-		    	<hr>
 		    	<span class="pull-right"><a href="/admin/group/create" class="btn btn-success">Add Group</a></span>
 		 	</div>
 		 	<div class="box-body table-responsive">

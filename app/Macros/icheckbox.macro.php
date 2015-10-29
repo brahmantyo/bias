@@ -1,5 +1,5 @@
 <?php
-Form::macro('icheckbox', function($name,$label,$checked,$description)
+Form::macro('icheckbox', function($name,$label,$checked,$description,$required=null)
 {
     $checkbox="";
     if($checked){
@@ -9,10 +9,14 @@ Form::macro('icheckbox', function($name,$label,$checked,$description)
 
     }
 
+    if($required){
+        $required = '<span>*</span>';
+    }
+
 	$output = '
 	<div class="form-group">
         <div class="col-sm-2">
-            <label for="'.$name.'" class="control-label">'.$label.'</label>
+            <label for="'.$name.'" class="control-label ">'.$label.$required.'</label>
         </div>
         <div class="col-sm-10">
             <div class="checkbox">

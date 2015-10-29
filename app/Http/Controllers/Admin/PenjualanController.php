@@ -14,7 +14,7 @@ class PenjualanController extends Controller {
 	 */
 	public function getIndex()
 	{
-		return view('admin.report.penjualan');
+		return view('admin.transaction.penjualan');
 	}
 	public function getJual()
 	{
@@ -28,7 +28,7 @@ class PenjualanController extends Controller {
 	}
 	public function getSettings()
 	{
-		$data = \DB::table('setting')->select('*')->get();
+		$data = \DB::table('msetting')->select('*')->get();
 		return json_encode($data);
 	}
 }

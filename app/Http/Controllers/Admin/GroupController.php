@@ -3,11 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-//use Illuminate\Http\Request;
-use Request;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Database\group;
 use App\Http\Database\user;
+use App\Http\Database\privileges_group;
+
 class GroupController extends Controller {
 
 	/**
@@ -35,9 +36,20 @@ class GroupController extends Controller {
 	 */
 	public function index()
 	{
-		$groups = group::where('groupid','>',0)
+		
+		if(\Config::get('group')>0){
+			$groups = group::select('*')->where('groupid','>',0)
 			->orderBy('groupid','desc')
 			->paginate(\Config::get('pages'));
+		}else{
+			$groups = group::select('*')
+			->orderBy('groupid','desc')
+			->paginate(\Config::get('pages'));
+		}
+		
+		
+		//echo $groups->count();
+		//die;
 		return view('admin.master.user.group')->with('groups',$groups);
 	}
 
@@ -48,7 +60,7 @@ class GroupController extends Controller {
 	 */
 	public function create()
 	{
-		$parents=array();
+		$parents=[0=>'No Parent'];
 		$groups = group::where('status','>',0)->get();
 		foreach ($groups as $g) {
 			if($g->groupid>0){
@@ -66,9 +78,9 @@ class GroupController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-	    $v = Validator::make(Request::all(),[
+	    $v = Validator::make($request->all(),[
 	        'groupname' => 'required',
 	        'groupparent' => 'required',
 	    ]);
@@ -79,10 +91,22 @@ class GroupController extends Controller {
 
 
 		$group = new group;
-		$group->groupname = Request::get('groupname');
-		$group->parent = Request::get('groupparent');
-		$group->status = Request::get('status')?:'0';
+		$group->groupname = $request->get('groupname');
+		$group->parent = $request->get('groupparent');
+		$group->status = $request->get('status')?:'0';
 		$group->save();
+		
+		$groupid = $group->groupid;
+		$gpriv = new privileges_group;
+		//Add root menu permission
+		$gpriv->privilegesid = 0;
+		$gpriv->groupid = $groupid;
+		$gpriv->save();
+		//Add about menu permission
+		$gpriv = new privileges_group;
+		$gpriv->privilegesid = 10;
+		$gpriv->groupid = $groupid;
+		$gpriv->save();
 		return redirect('/admin/group');
 	}
 
@@ -100,7 +124,7 @@ class GroupController extends Controller {
 
 	public function edit($id)
 	{
-		$parents=array();
+		$parents=[0=>'No Parent'];
 		$groups = group::where('status','>',0)->get();
 		foreach ($groups as $g) {
 			if($g->groupid>0){
@@ -120,9 +144,9 @@ class GroupController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-	    $v = Validator::make(Request::all(),[
+	    $v = Validator::make($request->all(),[
 	        'groupname' => 'required',
 	        'groupparent' => 'required',
 	    ]);
@@ -133,9 +157,9 @@ class GroupController extends Controller {
 	
 
 		$group = group::find($id);
-		$group->groupname = Request::get('groupname');
-		$group->parent = Request::get('groupparent');
-		$group->status = Request::get('status')?:'0';
+		$group->groupname = $request->get('groupname');
+		$group->parent = $request->get('groupparent');
+		$group->status = $request->get('status')?:'0';
 		$group->save();
 		return redirect('/admin/group');
 	}
@@ -161,6 +185,10 @@ class GroupController extends Controller {
 			$errors[] = 'maaf, group ini memiliki sub group!';
 	        return redirect()->back()->withErrors($errors);
 		}
+
+		//Clear permission for this group
+		\DB::table('mprivileges_group')->where('groupid','=',$id)->delete();
+
 		$group->delete();
 		return redirect('/admin/group');
 	}

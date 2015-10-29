@@ -1,5 +1,5 @@
 <?php
-Form::macro('iradio', function($name,$label,$options=array(),$default)
+Form::macro('iradio', function($name,$label,$options=array(),$default,$required=null)
 {
     $arroptions = '';
     foreach ($options as $key => $value) {
@@ -9,10 +9,14 @@ Form::macro('iradio', function($name,$label,$options=array(),$default)
             $arroptions .= '<label class="btn btn-primary"><input type="radio"  id="'.$name.'" name="'.$name.'" value="'.$key.'" /> '.$value.'</label>'; 
         }
     }
+    if($required){
+        $required = '<span>*</span>';
+    }
+
 	$output = '
 	<div class="form-group">
         <div class="col-sm-2">
-            <label for="'.$name.'" class="control-label">'.$label.'</label>
+            <label for="'.$name.'" class="control-label">'.$label.$required.'</label>
         </div>
         <div class="col-sm-10">
             <div class="btn-group" data-toggle="buttons">
