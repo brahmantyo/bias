@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider {
 
         //set user and group (sementara, sblm auth diaktifkan)
         //Config::set('user',1);
-        Config::set('group',1);
+        Config::set('group',-1);
         $settings =  setting::all();
         foreach($settings as $item){
             Config::set($item->config_key,$item->config_value);
@@ -58,12 +58,19 @@ class AppServiceProvider extends ServiceProvider {
             $menu->item('base')->add('User','admin/user')->data('permission','menu_user');
             $menu->item('base')->add('Group','admin/group')->data('permission','menu_group');
             $menu->item('base')->add('Privileges','admin/privileges')->data('permission','menu_privileges');
-            $menu->item('base')->add('Permission','admin')->data('permission','menu_permission');
+            $menu->item('base')->add('Permission','admin/permission')->data('permission','menu_permission');
             
 
             $menu->add('Master')->data('permission','root_menu_master');
             $menu->item('master')->add('Cabang','admin/cabang')->data('permission','menu_cabang');
-            $menu->item('master')->add('Barang','admin/barang')->data('permission','menu_barang');
+            $menu->item('master')->add('Barang')->data('permission','menu_barang');
+               	$menu->item('barang')->add('Daftar Barang','admin/barang')->data('permission','menu_barang');
+            	$menu->item('barang')->add('Bahan','admin/jenis')->data('permission','menu_jenis');
+            	$menu->item('barang')->add('Warna','admin/warna')->data('permission','menu_warna');
+            	$menu->item('barang')->add('Motif','admin/motif')->data('permission','menu_motif');
+            	$menu->item('barang')->add('Konstruksi','admin/konstruksi')->data('permission','menu_konstruksi');
+            	$menu->item('barang')->add('Divisi','admin/divisi')->data('permission','menu_divisi');
+
             
             $menu->item('master')->add('Supplier','admin/supplier')->data('permission','menu_supplier');
             $menu->item('master')->add('Konsumen','admin/konsumen')->data('permission','menu_konsumen');

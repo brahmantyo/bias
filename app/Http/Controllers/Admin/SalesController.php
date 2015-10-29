@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Http\Database\supplier;
-
-class SupplierController extends Controller
+class SalesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $supplier = supplier::orderBy('idsupp','desc')->paginate(\Config::get('pages'));
-        return view('admin.master.supplier.supplier')->with('supplier',$supplier);
+        //
     }
 
     /**

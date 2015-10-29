@@ -16,7 +16,7 @@
     <style type="text/css">
         @media (max-width: 768px) {
           body {
-            background: url('image/loginpage-xs.png') no-repeat;
+            background: url('image/loginpage-xs.jpg') no-repeat;
         /*    width: 100%;
             height:100vh;*/
           }
@@ -27,15 +27,16 @@
             min-width:80%;
             top: 20%;
             left:20%;
-            transform: translate(-50%,-50%);
+            transform: translate(-12%,-20%);
             padding: 10px;
             padding-top: 100px;    
+            border-bottom: 2px dashed white;
           }
         }
 
         @media (min-width: 768px) {
           body {
-            background: url('image/loginpage-md.png') no-repeat;
+            background: url('image/loginpage-md.jpg') no-repeat;
             width: 100%;
             height:100vh;
           }
@@ -55,7 +56,7 @@
 
         @media (min-width: 1200px) {
           body {
-            background: url('image/loginpage-lg.png') no-repeat;
+            background: url('image/loginpage-lg.jpg') no-repeat;
             width: 100%;
             height:100vh;
           }

@@ -22,14 +22,14 @@ Route::group([/*'middleware'=>['auth'],*/'prefix'=>'admin','namespace'=>'Admin']
 	Route::resource('user','UserController');
 	
 	Route::controller('privileges','PrivilegesController');
+	Route::resource('permission','PermissionController');
+
 
 
 	//-- Master --//
 	Route::resource('cabang','CabangController');
 	Route::resource('supplier','SupplierController');
 	
-	Route::resource('kota','KotaController');
-	Route::resource('pegawai','PegawaiController');
 	Route::resource('konsumen','KonsumenController');
 	
 	//-- Transactions --//
