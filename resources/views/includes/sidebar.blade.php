@@ -100,7 +100,7 @@
         </ul>
 -->
         <ul class="sidebar-menu">
-            @include(config('laravel-menu.views.bootstrap-items'), ['class'=>'sidebar-menu','items' => $menu->roots()])
+            @include(config('laravel-menu.views.bootstrap-items'), ['class'=>'sidebar-menu','items' =>\Config::get('menu')->roots()])
         </ul>
 
     </section>

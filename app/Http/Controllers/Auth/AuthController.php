@@ -54,7 +54,6 @@ class AuthController extends Controller {
 	
 	public function postLogin(Request $request)
 	{
-		echo 'login';
 	    $this->validate($request, [
 	        'name' => 'required',
 	        'password' => 'required',
@@ -75,11 +74,11 @@ class AuthController extends Controller {
 	    if($user){
 	    	session()->regenerate();
 	    	Session::put('user',$user);
-	    	Config::set('user',$user->id);
 
 	    	$group = group::find($user->groupid);
+	    	
 	    	if($group->count()){
-	    		Config::set('group',$group->groupid);
+	    		Session::set('group',$group);
 	    	}
 	    	
 		}

@@ -12,7 +12,7 @@ use App\Helpers as Helpers;
 |
 */
 
-Route::group([/*'middleware'=>['auth'],*/'prefix'=>'admin','namespace'=>'Admin'],function()
+Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Admin'],function()
 {
 	//-- Base --//
 	Route::get('/',function(){
