@@ -19,6 +19,12 @@
                 @endforeach
             @endif
 		 	<div class="box-body table-responsive">
+		 		<div class="pull-right">
+		 			{!! Form::open(['action'=>'Admin\PermissionController@search','class'=>'form-inline']) !!}
+		 			{!! Form::itext('cari','') !!}
+		 			{!! Form::submit('Search',['class'=>'btn btn-success'])!!}
+		 			{!! Form::close() !!}
+		 		</div>
 		        <table class="table table-condensed table-striped table-bordered table-hover no-margin">
 					<thead>
 						<tr style="font-weight: bold">

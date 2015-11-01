@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller {
-
+	public function __construct()
+	{
+		$this->middleware('permission:menu_pegawai');
+		$this->middleware('permission:btn_pegawai_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_pegawai_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_pegawai_delete',['only'=>['destroy']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *

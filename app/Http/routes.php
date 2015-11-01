@@ -18,42 +18,48 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::get('/',function(){
 		return view('admin.index');
 	});
+
 	Route::resource('group','GroupController');
 	Route::resource('user','UserController');
 	
 	Route::controller('privileges','PrivilegesController');
 	Route::resource('permission','PermissionController');
-
-
+	Route::post('/permission/searchperm',['uses'=>'PermissionController@search']);
 
 	//-- Master --//
 	Route::resource('cabang','CabangController');
 	Route::resource('supplier','SupplierController');
-	
 	Route::resource('konsumen','KonsumenController');
+	Route::resource('sales','SalesController');
 	
 	//-- Transactions --//
 
 	//-- Reports --//
 	Route::resource('po','POController');	
-	//Route::resource('pembelian','PembelianController');
+	Route::resource('pembelian','PembelianController');
 	Route::controller('penjualan','PenjualanController');
 	//-- Utility --//
 	/*
 	Route::resource('article','ArticleController');
 	*/
 
+	Route::get('about',[
+		'as'=>'tentang',
+		function(){
+			return 'Niclogic.com';
+		}
+	]);
+
 });
+
 Route::group(['middleware'=>'auth'],function(){
-	Route::get('/','HomeController@index');	
+	Route::get('/',function(){
+		return Redirect::to('/admin');
+	});	
 });
-
-
 
 Route::get('test',function(){
-	//var_dump(Menu::get('mastermenu'));
-	//var_dump(Menu::get('mastermenu')->item('kota')->data('permission'));die;
-	return view('admin.index');
+	return redirect()->route('tentang');
 });
 
 Route::controllers([

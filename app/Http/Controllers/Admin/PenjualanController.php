@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller {
-
+	public function __construct()
+	{
+		$this->middleware('permission:menu_penjualan');
+		$this->middleware('permission:btn_penjualan_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_penjualan_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_penjualan_delete',['only'=>['destroy']]);
+	}
 	/**
 	 * Menampilkan daftar transaksi penjualan
 	 *

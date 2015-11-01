@@ -12,6 +12,22 @@ use App\Http\Database\permission;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:menu_permission');
+        $this->middleware('permission:btn_permission_add',['only'=>['create','store']]);
+        $this->middleware('permission:btn_permission_edit',['only'=>['edit','update']]);
+        $this->middleware('permission:btn_permission_delete',['only'=>['destroy']]);
+    }
+
+    public function search(Request $request)
+    {
+        $cari = $request->input('cari');
+        $perm = permission::Where('privilegesname','like','%'.$cari.'%')
+                ->orWhere('privilegesdesc','like','%'.$cari.'%')
+                ->paginate(Config::get('pages'));
+        return view('admin.base.permission')->with('permission',$perm);
+    }
     /**
      * Display a listing of the resource.
      *

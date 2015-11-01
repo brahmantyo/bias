@@ -28,6 +28,8 @@ class AdminMiddleware {
 	 */
 	public function handle($request, Closure $next)
 	{
+        if(!$this->auth->guest()){
+
         //set user and group (sementara, sblm auth diaktifkan)
         //Config::set('user',1);
         $group = Session::get('group');
@@ -72,8 +74,8 @@ class AdminMiddleware {
 
             $menu->add('Transaksi')->data('permission','root_menu_transaksi');
             $menu->item('transaksi')->add('Purchase Order','admin/po')->data('permission','menu_po');
-            $menu->item('transaksi')->add('Pembelian','admin/pembelian')->data('permission','menu_beli');
-            $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_jual');
+            $menu->item('transaksi')->add('Pembelian','admin/pembelian')->data('permission','menu_pembelian');
+            $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_penjualan');
 
             $menu->add('About','about',['class'=>'treeview'])->data('permission','menu_about');
         })->filter(function($item){
@@ -90,7 +92,6 @@ class AdminMiddleware {
         });
         Config::set('menu',Menu::get('mastermenu'));
 
-		if(!$this->auth->guest()){
 			return $next($request);
 		}
 		return redirect('/');

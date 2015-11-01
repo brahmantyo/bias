@@ -38,13 +38,20 @@
                     </ul>
                 </li>
                 <!-- User Account: style can be found in dropdown.less -->
-                <li class="dropdown user user-menu">
+                <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<!--                  <li class="dropdown user user-menu">
                     <a href="#" id="user-profile" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="" class="user-image" alt="User Image"/>
                     <span class="hidden-xs"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- User image -->
+                         User image 
                         <li class="user-header">
                             <img src="" class="img-circle" alt="User Image" />
                             <p>
@@ -52,8 +59,8 @@
                             <small>Member since </small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-<!--                         <li class="user-body">
+                         Menu Body 
+                         <li class="user-body">
                             <div class="col-xs-4 text-center">
                                 <a href="#">Followers</a>
                             </div>
@@ -63,19 +70,15 @@
                             <div class="col-xs-4 text-center">
                                 <a href="#">Friends</a>
                             </div>
-                        </li> -->
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-<!--                             <div class="pull-left">
+                        </li>
+                         Menu Footer
+                         <li class="user-footer">
+                            <div class="pull-left">
                                 <a href="" class="btn btn-default btn-flat">Profile</a>
-                            </div> -->
+                            </div>
                             <div class="pull-right">
                                 <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                         </li>
                     </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+                </li> -->

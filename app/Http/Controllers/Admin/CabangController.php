@@ -10,7 +10,13 @@ use Validator;
 use App\Http\Database\cabang;
 
 class CabangController extends Controller {
-
+	public function __construct()
+	{
+		$this->middleware('permission:menu_cabang');
+		$this->middleware('permission:btn_cabang_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_cabang_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_cabang_delete',['only'=>['destroy']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *

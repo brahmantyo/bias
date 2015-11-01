@@ -24,7 +24,7 @@
 		                    <th>Level</th>
 		                    <th>Date/Time Added</th>
 		                    <th>Last Updated</th>
-		                    <th width="200"></th>
+		                    <th width="130"></th>
 		                </tr>
 		            </thead>
 		 
@@ -38,10 +38,9 @@
 		                    <td>{{ $user->created_at->format('d M Y h:ia') }}</td>
 		                    <td>{{ $user->updated_at->format('d M Y h:ia') }}</td>
 		                    <td>
-		                        <a href="/admin/user/{{ $user->id }}" class="btn btn-warning pull-left" style="margin-right: 3px;">View</a>
 		                        <a href="/admin/user/{{ $user->id }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
 		                        {!! Form::open(['url' => '/admin/user/' . $user->id, 'method' => 'DELETE']) !!}
-		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger pull-right']) !!}
 		                        {!! Form::close() !!}
 		                    </td>
 		                </tr>

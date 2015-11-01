@@ -10,6 +10,14 @@ use App\Http\Database\supplier;
 
 class SupplierController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:menu_supplier');
+        $this->middleware('permission:btn_supplier_add',['only'=>['create','store']]);
+        $this->middleware('permission:btn_supplier_edit',['only'=>['edit','update']]);
+        $this->middleware('permission:btn_supplier_delete',['only'=>['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

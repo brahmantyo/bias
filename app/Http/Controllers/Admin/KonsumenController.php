@@ -9,6 +9,14 @@ use App\Http\Database\konsumen;
 
 class KonsumenController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('permission:menu_konsumen');
+		$this->middleware('permission:btn_konsumen_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_konsumen_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_konsumen_delete',['only'=>['destroy']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

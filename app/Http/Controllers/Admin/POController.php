@@ -10,6 +10,13 @@ use App\Http\Database\po;
 
 class POController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:menu_po');
+        $this->middleware('permission:btn_po_add',['only'=>['create','store']]);
+        $this->middleware('permission:btn_po_edit',['only'=>['edit','update']]);
+        $this->middleware('permission:btn_po_delete',['only'=>['destroy']]);
+    }
     public function getAllpo()
     {
         $po = po::leftJoin('msupplier AS s','s.idsupp','=','po.idsupp')

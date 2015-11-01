@@ -3,7 +3,7 @@
 @section('content-header')
 <ol class="breadcrumb">
     <li><a href="/"><i class="fa fa-dashboard"></i>Home</a></li>
-    <li><a href="/user"><i class="fa fa-user-secret"></i>User Manager</a></li>
+    <li><a href="/admin/user"><i class="fa fa-user-secret"></i>User Manager</a></li>
     <li class="active">Add</li>
 </ol>
 @endsection

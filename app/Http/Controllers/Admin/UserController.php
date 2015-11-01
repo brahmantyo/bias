@@ -11,6 +11,14 @@ use App\Http\Database\user;
 use App\Http\Database\group;
 class UserController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('permission:menu_user');
+		$this->middleware('permission:btn_user_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_user_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_user_delete',['only'=>['destroy']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *

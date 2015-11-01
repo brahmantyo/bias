@@ -54,7 +54,7 @@ class AuthController extends Controller {
 	
 	public function postLogin(Request $request)
 	{
-	    $this->validate($request, [
+	    $this->validate($request,[
 	        'name' => 'required',
 	        'password' => 'required',
 	    ]);
@@ -62,7 +62,6 @@ class AuthController extends Controller {
 	    $credentials = $request->only('name', 'password');
 	    try {
 		    $user = user::where('name','=',$credentials['name'])->firstOrFail();
-		    
 	    } catch(ModelNotFoundException $e){
 		    return redirect('/')
                 ->withInput($request->only('name', 'remember'))
@@ -73,10 +72,8 @@ class AuthController extends Controller {
 
 	    if($user){
 	    	session()->regenerate();
-	    	Session::put('user',$user);
-
+	    	Session::set('user',$user);
 	    	$group = group::find($user->groupid);
-	    	
 	    	if($group->count()){
 	    		Session::set('group',$group);
 	    	}
@@ -84,18 +81,14 @@ class AuthController extends Controller {
 		}
 	    if ($this->auth->attempt($credentials, $request->has('remember')))
 	    {
-	    	if($this->auth->user()->level!='KONSUMEN'){
-	    		return redirect('/admin');
-	    	}else{
-	        	//return redirect()->intended($this->redirectPath());
-	        	return redirect('/konsumenpanel');
-	    	}
+    		return redirect('/admin');
 	    }
 	    return redirect('/')
             ->withInput($request->only('name', 'remember'))
             ->withErrors([
                 'password' => 'Password is wrong',
             ]);
+        
 
 	}
 

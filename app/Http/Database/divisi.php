@@ -4,9 +4,9 @@ namespace App\Http\Database;
 
 use Illuminate\Database\Eloquent\Model;
 
-class permission extends Model
+class divisi extends Model
 {
-    protected $table = 'mprivileges';
-    protected $primaryKey = 'privilegesid';
+    protected $table = 'mdivisi';
+    protected $primaryKey = 'iddivisi';
     public $timestamps = false;
 }

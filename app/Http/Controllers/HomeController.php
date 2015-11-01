@@ -24,7 +24,8 @@ class HomeController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		$d = 'ttt';
+		return $d;
 	}
 
 	/**

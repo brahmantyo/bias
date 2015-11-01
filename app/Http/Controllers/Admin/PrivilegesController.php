@@ -12,6 +12,11 @@ use App\Http\Database\privileges_group;
 
 class PrivilegesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:menu_privileges');
+    }
+
     public function getIndex()
     {
         return view('admin.base.privileges');

@@ -11,6 +11,15 @@ use App\Http\Database\privileges_group;
 
 class GroupController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('permission:menu_group');
+		$this->middleware('permission:btn_group_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_group_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_group_delete',['only'=>'destroy']);
+
+	}
+
 	/**
 	 * Function for get child/children of group
 	 *

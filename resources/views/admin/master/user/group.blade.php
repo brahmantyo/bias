@@ -29,7 +29,7 @@
 		                    <th>Status</th>
 		                    <th>Date/Time Added</th>
 		                    <th>Last Updated</th>
-		                    <th width="200"></th>
+		                    <th width="130"></th>
 		                </tr>
 		            </thead>
 		 

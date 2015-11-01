@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class KotaController extends Controller {
-
+	public function __construct()
+	{
+		$this->middleware('permission:menu_kota');
+		$this->middleware('permission:btn_kota_add',['only'=>['create','store']]);
+		$this->middleware('permission:btn_kota_edit',['only'=>['edit','update']]);
+		$this->middleware('permission:btn_kota_delete',['only'=>['destroy']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
