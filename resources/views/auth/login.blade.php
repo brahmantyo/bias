@@ -9,7 +9,7 @@
             @endif
 
 {!! Form::open(['role'=>'form','url'=>'/auth/login','method'=>'POST','class'=>'form form-horizontal']) !!}
-{!! Form::itext('name','Login ID','Username/Login ID',old('name'),true)!!}
+{!! Form::itext('name','Login ID','Username/Login ID',old('name'),true) !!}
 {!! Form::ipassword('password','Password','Password',null,true) !!}
 {!! Form::bsubmit('Login') !!}
 {!! Form::close() !!}

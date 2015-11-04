@@ -1,12 +1,23 @@
 <?php
-Form::macro('iradio', function($name,$label,$options=array(),$default,$required=null)
+Form::macro('iradio', function($name,$label,$options=array(),$default,$required=null,$privileges=null,$permission=null)
 {
+    $disabled='';
+    if($privileges)
+    {
+        $disabled='disabled';
+        foreach ($privileges as $priv) {
+            if($priv->name===$permission){
+                $disabled = '';
+            }
+        }
+    }
+
     $arroptions = '';
     foreach ($options as $key => $value) {
         if($key==$default){
-            $arroptions .= '<label class="btn btn-primary active"<input type="radio"  id="'.$name.'" name="'.$name.'" value="'.$key.'" /> '.$value.'</label>'; 
+            $arroptions .= '<label class="btn btn-primary active"<input type="radio"  id="'.$name.'" name="'.$name.'" value="'.$key.'" '.$disabled.'/> '.$value.'</label>'; 
         }else{
-            $arroptions .= '<label class="btn btn-primary"><input type="radio"  id="'.$name.'" name="'.$name.'" value="'.$key.'" /> '.$value.'</label>'; 
+            $arroptions .= '<label class="btn btn-primary"><input type="radio"  id="'.$name.'" name="'.$name.'" value="'.$key.'" '.$disabled.'/> '.$value.'</label>'; 
         }
     }
     if($required){

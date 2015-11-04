@@ -36,16 +36,16 @@
                         <tr>
                             <td>{{ $b->idbeli }}</td>
                             <td>{{ $b->idpo }}</td>
-                            <td>{{ $b->tgl }}</td>
+                            <td>{{ $b->tglbeli }}</td>
                             <td>{{ $b->supplier->nama }}</td>
                             <td>{{ $b->getstatus() }}</td>
                             <td>
-                                <a href="/admin/pembelian/{{ $b->idbeli }}" class="btn btn-success pull-left" style="margin-right: 3px;">Detail</a>                                
-                                <a href="/admin/pembelian/{{ $b->idbeli }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+                                <a href="/admin/pembelian/{{ $b->idbeli }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+<!--                                 <a href="/admin/pembelian/{{ $b->idbeli }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
                                 {!! Form::open(['url' => '/admin/pembelian/' . $b->idbeli, 'method' => 'DELETE']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::close() !!}
-                            </td>
+ -->                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -55,4 +55,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('a:contains("Detail")').fancybox({
+        type : 'iframe',
+        href : this.value,
+        autoSize: false,
+        width: 1024,
+        height: 800,
+        openSpeed: 1,
+        closeSpeed: 1,
+        ajax : {
+            dataType : 'html',
+        },
+        afterClose : function(){ window.location.replace('/admin/pembelian') },
+    });
+</script>
 @endsection

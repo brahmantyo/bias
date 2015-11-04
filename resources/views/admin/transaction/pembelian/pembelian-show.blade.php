@@ -1,4 +1,4 @@
-@extends('app')
+@extends('app-modal')
 
 @section('content-header')
 <h1>
@@ -21,17 +21,13 @@ User Manager
     <div class="well col-lg-12">
         <div class="col-lg-12">
             <table height="100%" class="table table-condensed table-striped table-bordered no-margin">
-                <tr><td>ID Pembelian</td><td> : {{ $beli->idbeli }}</td></tr>
-                <tr><td>ID PO</td><td> : {{ $beli->idpo }}</td></tr>
-                <tr><td>Tanggal</td><td> : {{ $beli->tglpo }}</td></tr>
-                <tr><td>Supplier</td><td> : {{ $beli->supplier->nama }}</td></tr>
-                <tr><td>Surat Jalan</td><td> : {{ $beli->suratjalan }}</td></tr>
+                <tr><td>ID Pembelian</td><td> : {{ $beli->idbeli }}</td><td>Status</td><td> : {{ $beli->getstatus() }}</td></tr>
+                <tr><td>ID PO</td><td> : {{ $beli->idpo }}</td><td>Keterangan</td><td> : {{ $beli->ket }}</td></tr>
+                <tr><td>Tanggal</td><td> : {{ $beli->tglpo }}</td><td>Jatuh Tempo</td><td> : {{ $beli->tgljthtempo }}</td></tr>
+                <tr><td>Supplier</td><td> : {{ $beli->supplier->nama }}</td><td>Entry oleh</td><td> : {{ $beli->createdby }}</td></tr>
+                <tr><td>Surat Jalan</td><td> : {{ $beli->suratjalan }}</td><td>Tgl Entry</td><td> : {{ $beli->createdon }}</td></tr>
                 <tr><td>Inv</td><td> : {{ $beli->inv }}</td></tr>
-                <tr><td>Status</td><td> : {{ $beli->getstatus() }}</td></tr>
-                <tr><td>Keterangan</td><td> : {{ $beli->ket }}</td></tr>
-                <tr><td>Jatuh Tempo</td><td> : {{ $beli->tgljthtempo }}</td></tr>
-                <tr><td>Entry oleh</td><td> : {{ $beli->createdby }}</td></tr>
-                <tr><td>Tgl Entry</td><td> : {{ $beli->createdon }}</td></tr>
+
             </table>
             <table  class="table table-condensed table-striped table-bordered table-hover no-margin">
                 <thead>
@@ -45,6 +41,7 @@ User Manager
                         <th>Hrg Berat</th>
                         <th>SKU</th>
                         <th>Divisi</th>
+                        <th>Titip Jual</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,12 +56,11 @@ User Manager
                         <td>{{$db->hrgbrt}}</td>
                         <td>{{$db->sku}}</td>
                         <td>{{$db->getdivisi->nama}}</td>
+                        <td>{!! Form::checkbox('','',$db->konsi,['disabled']) !!}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-
-            <a href="#" onclick="history.back();" class="btn btn-warning pull-left" style="margin-right: 3px;">Close</a>
         </div>
     </div>
 

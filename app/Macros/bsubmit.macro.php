@@ -1,6 +1,17 @@
 <?php
-Form::macro('bsubmit', function($label,$buttons=[])
+Form::macro('bsubmit', function($label,$buttons=[],$privileges=null,$permission=null)
 {
+    $disabled='';
+    if($privileges)
+    {
+        $disabled='disabled';
+        foreach ($privileges as $priv) {
+            if($priv->name===$permission){
+                $disabled = '';
+            }
+        }
+    }
+
 	$addonbtn = '';
 	foreach ($buttons as $key => $value) {
 		switch ($key) {
@@ -15,7 +26,7 @@ Form::macro('bsubmit', function($label,$buttons=[])
 	$output = '
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">'.$label.'</button>'.$addonbtn
+            <button type="submit" class="btn btn-primary" '.$disabled.'>'.$label.'</button>'.$addonbtn
         .'</div>
     </div>';
     return $output;

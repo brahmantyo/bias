@@ -18,6 +18,9 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::get('/',function(){
 		return view('admin.index');
 	});
+	Route::get('about',function(){
+		return view('admin.about');
+	});
 
 	Route::resource('group','GroupController');
 	Route::resource('user','UserController');
@@ -31,6 +34,7 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::resource('supplier','SupplierController');
 	Route::resource('konsumen','KonsumenController');
 	Route::resource('sales','SalesController');
+	Route::controller('barang','BarangController');
 	
 	//-- Transactions --//
 
@@ -43,12 +47,6 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::resource('article','ArticleController');
 	*/
 
-	Route::get('about',[
-		'as'=>'tentang',
-		function(){
-			return 'Niclogic.com';
-		}
-	]);
 
 });
 

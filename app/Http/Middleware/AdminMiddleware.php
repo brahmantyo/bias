@@ -60,14 +60,14 @@ class AdminMiddleware {
             $menu->add('Master')->data('permission','root_menu_master');
             $menu->item('master')->add('Cabang','admin/cabang')->data('permission','menu_cabang');
             $menu->item('master')->add('Barang')->data('permission','menu_barang');
-               	$menu->item('barang')->add('Daftar Barang','admin/barang')->data('permission','menu_barang');
-            	$menu->item('barang')->add('Bahan','admin/jenis')->data('permission','menu_jenis');
-            	$menu->item('barang')->add('Warna','admin/warna')->data('permission','menu_warna');
-            	$menu->item('barang')->add('Motif','admin/motif')->data('permission','menu_motif');
-            	$menu->item('barang')->add('Konstruksi','admin/konstruksi')->data('permission','menu_konstruksi');
-            	$menu->item('barang')->add('Divisi','admin/divisi')->data('permission','menu_divisi');
-
-            
+               	$menu->item('barang')->add('Daftar Barang','admin/barang/daftar')->data('permission','menu_barang');
+                $menu->item('barang')->add('Parameter')->data('permission','menu_barang_parameter');
+            	    $menu->item('parameter')->add('Bahan','admin/barang/bahan')->data('permission','menu_jenis');
+                	$menu->item('parameter')->add('Warna','admin/barang/warna')->data('permission','menu_warna');
+                	$menu->item('parameter')->add('Motif','admin/barang/motif')->data('permission','menu_motif');
+                	$menu->item('parameter')->add('Konstruksi','admin/barang/konstruksi')->data('permission','menu_konstruksi');
+                	$menu->item('parameter')->add('Divisi','admin/barang/divisi')->data('permission','menu_divisi');
+                                
             $menu->item('master')->add('Supplier','admin/supplier')->data('permission','menu_supplier');
             $menu->item('master')->add('Konsumen','admin/konsumen')->data('permission','menu_konsumen');
             $menu->item('master')->add('Sales','admin/sales')->data('permission','menu_sales');
@@ -77,7 +77,7 @@ class AdminMiddleware {
             $menu->item('transaksi')->add('Pembelian','admin/pembelian')->data('permission','menu_pembelian');
             $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_penjualan');
 
-            $menu->add('About','about',['class'=>'treeview'])->data('permission','menu_about');
+            $menu->add('About','admin/about',['class'=>'treeview'])->data('permission','menu_about');
         })->filter(function($item){
             if(Config::get('group')<0){
                 return true;

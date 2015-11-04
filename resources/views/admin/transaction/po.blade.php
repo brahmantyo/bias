@@ -39,10 +39,10 @@
 		                    <td>{{ $p->nama }}</td>
 		                    <td>{{ $p->approvedby }}</td>
 		                    <td>
-		                        <a href="/admin/po/{{ str_replace('/','-',$p->idpo) }}" class="btn btn-warning pull-left" style="margin-right: 3px;">View</a>
-		                        {!! Form::open(['url' => '/admin/po/' . str_replace('/','-',$p->idpo), 'method' => 'DELETE']) !!}
+		                        <a id="detail" href="/admin/po/{{ str_replace('/','-',$p->idpo) }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+<!-- 		                        {!! Form::open(['url' => '/admin/po/' . str_replace('/','-',$p->idpo), 'method' => 'DELETE']) !!}
 		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-		                        {!! Form::close() !!}
+		                        {!! Form::close() !!} -->
 		                    </td>
 		                </tr>
 		                @endforeach
@@ -53,4 +53,22 @@
 	 	</div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+	$('a:contains("Detail")').fancybox({
+		type : 'iframe',
+		href : this.value,
+		autoSize: false,
+		width: 1024,
+		height: 800,
+		openSpeed: 1,
+		closeSpeed: 1,
+		ajax : {
+			dataType : 'html',
+		},
+		afterClose : function(){ window.location.replace('/admin/po') },
+	});
+
+</script>
 @endsection

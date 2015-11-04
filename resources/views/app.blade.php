@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
     <title>{{\Config::get('appname')}} | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="_token" content="{{ csrf_token() }}"/>
@@ -26,6 +28,11 @@
     <link href="{{ asset('/plugins/datepicker/datepicker3.css') }}" rel="stylesheet" type="text/css" />
     <!-- Date Range Picker -->
     <link href="{{ asset('/plugins/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .slimScrollBar {
+            background: none repeat scroll 0 0 #FF4508 !important;
+        }
+    </style>
 
     <!-- Fancy Box -->
     {!! Html::style('/bootstrap/css/bootstrap.min.css') !!}

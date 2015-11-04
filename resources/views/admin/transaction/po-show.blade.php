@@ -1,4 +1,4 @@
-@extends('app')
+@extends('app-modal')
 
 @section('content-header')
 <h1>
@@ -53,8 +53,6 @@ User Manager
                 @endforeach
                 </tbody>
             </table>
-
-            <a href="#" onclick="history.back();" class="btn btn-warning pull-left" style="margin-right: 3px;">Close</a>
         </div>
     </div>
 

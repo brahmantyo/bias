@@ -11,6 +11,7 @@ use Hash;
 use Config;
 use App\Http\Database\user;
 use App\Http\Database\group;
+use App\Http\Database\privileges_group;
 
 
 class AuthController extends Controller {
@@ -76,6 +77,10 @@ class AuthController extends Controller {
 	    	$group = group::find($user->groupid);
 	    	if($group->count()){
 	    		Session::set('group',$group);
+	    		$privileges = privileges_group::select('p.privilegesid as id','p.privilegesname as name','p.privilegesdesc as desc')
+				            ->leftJoin('mprivileges as p','p.privilegesid','=','mprivileges_group.privilegesid')
+				            ->where('mprivileges_group.groupid','=',$group->groupid)->get();
+				Session::set('privileges',$privileges);
 	    	}
 	    	
 		}

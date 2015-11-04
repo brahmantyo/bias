@@ -34,13 +34,15 @@ class PermissionMiddleware
 
     public function checkPermission($perm)
     {
-        $privileges = privileges_group::select('p.privilegesid as id','p.privilegesname as name','p.privilegesdesc as desc')
+/*        $privileges = privileges_group::select('p.privilegesid as id','p.privilegesname as name','p.privilegesdesc as desc')
             ->leftJoin('mprivileges as p','p.privilegesid','=','mprivileges_group.privilegesid')
             ->where('mprivileges_group.groupid','=',\Session::get('group')->groupid)
-            ->where('p.privilegesname','like','%'.$perm.'%')->get();
-        
-        if($privileges->count()){
-            return true;
+            ->where('p.privilegesname','like','%'.$perm.'%')->get();*/
+        $privileges = \Session::get('privileges');//->where($this->privilegesname,'like','%'.$perm.'%');
+        foreach($privileges as $p){
+            if($p->name==$perm){
+                return true;
+            }
         }
         return false;
     }
