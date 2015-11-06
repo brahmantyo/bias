@@ -37,11 +37,12 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::controller('barang','BarangController');
 	
 	//-- Transactions --//
-
-	//-- Reports --//
 	Route::resource('po','POController');	
 	Route::resource('pembelian','PembelianController');
 	Route::controller('penjualan','PenjualanController');
+
+	//-- Reports --//
+	Route::resource('monitoringpo','MonitoringPOController');
 	//-- Utility --//
 	/*
 	Route::resource('article','ArticleController');

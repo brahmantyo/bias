@@ -82,4 +82,82 @@ class Helpers {
         return date_format($result,"d-m-Y");*/
         return !$date?'-':\Carbon\Carbon::parse($date)->format('d-m-Y');
     }
+
+    public static function month($month,$format='s'){
+        switch($month){
+            case '1' : {
+                    switch($format){
+                        case 's' : return 'Jan';break;
+                        case 'l' : return 'Januari';break;
+                    }
+                }
+            case '2' : {
+                    switch($format){
+                        case 's' : return 'Feb';break;
+                        case 'l' : return 'Februari';break;
+                    }
+                }
+            case '3' : {
+                    switch($format){
+                        case 's' : return 'Mar';break;
+                        case 'l' : return 'Maret';break;
+                    }
+                }
+            case '4' : {
+                    switch($format){
+                        case 's' : return 'Apr';break;
+                        case 'l' : return 'April';break;
+                    }
+                }
+            case '5' : {
+                    switch($format){
+                        case 's' : return 'Mei';break;
+                        case 'l' : return 'Mei';break;
+                    }
+                }
+            case '6' : {
+                    switch($format){
+                        case 's' : return 'Jun';break;
+                        case 'l' : return 'Juni';break;
+                    }
+                }
+            case '7' : {
+                    switch($format){
+                        case 's' : return 'Jul';break;
+                        case 'l' : return 'Juli';break;
+                    }
+                }
+            case '8' : {
+                    switch($format){
+                        case 's' : return 'Ags';break;
+                        case 'l' : return 'Agustus';break;
+                    }
+                }
+            case '9' : {
+                    switch($format){
+                        case 's' : return 'Sep';break;
+                        case 'l' : return 'September';break;
+                    }
+                }
+            case '10' : {
+                    switch($format){
+                        case 's' : return 'Okt';break;
+                        case 'l' : return 'Oktober';break;
+                    }
+                }
+            case '11' : {
+                    switch($format){
+                        case 's' : return 'Nov';break;
+                        case 'l' : return 'November';break;
+                    }
+                }
+            case '12' : {
+                    switch($format){
+                        case 's' : return 'Des';break;
+                        case 'l' : return 'Desember';break;
+                    }
+                }
+        }
+        return $month;
+    }
 }
