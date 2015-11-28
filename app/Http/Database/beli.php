@@ -15,7 +15,7 @@ class beli extends Model
     	return $this->hasOne('App\Http\Database\supplier','idsupp','idsupp');
     }
 
-    public function getstatus()
+    public function getStatus()
     {
     	switch($this->status)
     	{

@@ -78,7 +78,13 @@ class AdminMiddleware {
                 $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_penjualan');
 
             $menu->add('Report')->data('permission','root_menu_report');
-                $menu->item('report')->add('Monitoring PO','admin/monitoringpo')->data('permission','menu_monitoring_po');
+                $menu->item('report')->add('Purchasing')->data('permission','menu_report_purchasing');
+                    $menu->item('purchasing')->add('Monitoring PO','admin/monitoringpo')->data('permission','menu_monitoring_po');
+                    //$menu->item('purchasing')->add('Monitoring Kontrak','admin/monitoringkontrak')->data('permission','menu_monitoring_kontrak');
+                    //$menu->item('purchasing')->add('Monitoring Stock','admin/report/stock')->data('permission','menu_monitoring_stock');
+                $menu->item('report')->add('Inventory')->data('permission','menu_report_inventory');
+                $menu->item('report')->add('Sales')->data('permission','menu_report_sales');
+
 
             $menu->add('About','admin/about',['class'=>'treeview'])->data('permission','menu_about');
         })->filter(function($item){

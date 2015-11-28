@@ -12,6 +12,21 @@
         <div class="box">
             <div class="box-header">
                 <span><h1><i class="fa fa-user-secret"></i>Pembelian</h1></span>
+                <hr>
+                <span>
+                    {!! Form::open(['url'=>'/admin/pembelian/search','method'=>'GET','class'=>'form-horizontal']) !!}
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                {!! Form::text('s',old('s'),['placeholder'=>'Search everything here ...','class'=>'form-control input-group-addon ']) !!}
+                                <span class="input-group-btn">
+                                    {!! Form::submit('Search',['class'=>'btn btn-success']) !!}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+                </span>                
             </div>
             <div class="box-body table-responsive">
                 @if ($errors->has())
@@ -26,7 +41,6 @@
                             <th>ID PO</th>
                             <th>Tgl</th>
                             <th>Supplier</th>
-                            <th>Status</th>
                             <th width="200"></th>
                         </tr>
                     </thead>
@@ -38,9 +52,8 @@
                             <td>{{ $b->idpo }}</td>
                             <td>{{ $b->tglbeli }}</td>
                             <td>{{ $b->supplier->nama }}</td>
-                            <td>{{ $b->getstatus() }}</td>
                             <td>
-                                <a href="/admin/pembelian/{{ $b->idbeli }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+                                <a href="/admin/pembelian/show/{{ $b->idbeli }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
 <!--                                 <a href="/admin/pembelian/{{ $b->idbeli }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
                                 {!! Form::open(['url' => '/admin/pembelian/' . $b->idbeli, 'method' => 'DELETE']) !!}
                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}

@@ -47,12 +47,11 @@ class GroupController extends Controller {
 	{
 		
 		if(\Config::get('group')>0){
-			$groups = group::select('*')->where('groupid','>',0)
+			$groups = group::where('groupid','>',0)
 			->orderBy('groupid','desc')
 			->paginate(\Config::get('pages'));
 		}else{
-			$groups = group::select('*')
-			->orderBy('groupid','desc')
+			$groups = group::orderBy('groupid','desc')
 			->paginate(\Config::get('pages'));
 		}
 		
@@ -70,13 +69,15 @@ class GroupController extends Controller {
 	public function create()
 	{
 		$parents=[0=>'No Parent'];
-		$groups = group::where('status','>',0)->get();
+		if(\Config::get('group') == -1){
+			$groups = group::where('status','>',0)->get();
+		}else{
+			$groups = group::where('status','>',0)->where('groupid','>',0)->get();
+		}
 		foreach ($groups as $g) {
-			if($g->groupid>0){
-				if($g->parent==0){
-					$parents[$g->groupid] = $g->groupname;
-					$this->getChildGroup($groups,$g->groupid,$parents);
-				}
+			if($g->parent==0){
+				$parents[$g->groupid] = $g->groupname;
+				$this->getChildGroup($groups,$g->groupid,$parents);
 			}
 		}
 		return view('admin.master.user.group-add')->with('parents',$parents);
@@ -134,13 +135,15 @@ class GroupController extends Controller {
 	public function edit($id)
 	{
 		$parents=[0=>'No Parent'];
-		$groups = group::where('status','>',0)->get();
+		if(\Config::get('group') == -1){
+			$groups = group::where('status','>',0)->get();
+		}else{
+			$groups = group::where('status','>',0)->where('groupid','>',0)->get();
+		}
 		foreach ($groups as $g) {
-			if($g->groupid>0){
-				if($g->parent==0){
-					$parents[$g->groupid] = $g->groupname;
-					$this->getChildGroup($groups,$g->groupid,$parents);
-				}
+			if($g->parent==0){
+				$parents[$g->groupid] = $g->groupname;
+				$this->getChildGroup($groups,$g->groupid,$parents);
 			}
 		}
 		$group = group::find($id);

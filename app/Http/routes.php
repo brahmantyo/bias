@@ -37,12 +37,34 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	Route::controller('barang','BarangController');
 	
 	//-- Transactions --//
-	Route::resource('po','POController');	
-	Route::resource('pembelian','PembelianController');
+	//Route::resource('po','POController');
+	Route::controller('po','POController');
+	Route::controller('pembelian','PembelianController');
 	Route::controller('penjualan','PenjualanController');
+	Route::group(['prefix'=>'report','namespace'=>'Report'],function(){
+		//Report Monitoring PO
+			Route::controller('po','POController');
+		//Report Persediaan / Stock
+			Route::controller('stock','StockController');
+		//Report Pembelian
+			Route::controller('pembelian','PembelianController');
+		//Report Penjualan
+			Route::controller('penjualan','PenjualanController');
+		//Report Rugi Laba
+			Route::controller('rl','RLController');
+		//Report Piutang
+			Route::controller('piutang','PiutangController');
+		//Report Hutang
+			Route::controller('hutang','HutangController');
+		//Report Aliran Kas (Cash Flow)
+			Route::controller('cashflow','CashflowController');
+		//Report Buku Besar / General Ledger
+			Route::controller('gl','GLController');
+	});
 
 	//-- Reports --//
-	Route::resource('monitoringpo','MonitoringPOController');
+	Route::controller('monitoringpo','MonitoringPOController');
+	Route::get('beli','PembelianController@getBeli');
 	//-- Utility --//
 	/*
 	Route::resource('article','ArticleController');

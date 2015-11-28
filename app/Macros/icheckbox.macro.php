@@ -28,7 +28,7 @@ Form::macro('icheckbox', function($name,$label,$checked,$description=null,$requi
         </div>
         <div class="col-sm-10">
             <div class="checkbox">
-                <label><input type="checkbox" '.$checked.' name="'.$name.'" value="1" '.$disabled.'/> '.$description.'</label>
+                <label><input type="checkbox" '.$checkbox.' name="'.$name.'" value="1" '.$disabled.'/> '.$description.'</label>
             </div>
 
         </div>

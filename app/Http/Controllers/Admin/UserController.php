@@ -20,6 +20,23 @@ class UserController extends Controller {
 	}
 
 	/**
+	 * Function for get child/children of group
+	 *
+	 * @param recordset $groups
+	 * @param int $idparent
+	 * @param pointer $parent
+	 * @return Response
+	 */
+	private function getChildGroup($groups,$idparent,&$parents){
+		foreach($groups as $g){
+			if($g->parent==$idparent){
+				$parents[$g->groupid] = $parents[$idparent].'>'.$g->groupname;
+				$this->getChildGroup($groups,$g->groupid,$parents);
+			}
+		}
+	}
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -46,12 +63,21 @@ class UserController extends Controller {
 	 */
 	public function create()
 	{
-		$groups = group::where('groupid','>',0)->get();
-		$arrgroup = [];
-		foreach ($groups as $g) {
-			$arrgroup[$g->groupid] = $g->groupname;
+		$grouplvl=array();
+		if(\Config::get('group') == -1){
+			$groups = group::where('status','>',0)->get();
+		}else{
+			$groups = group::where('status','>',0)->where('groupid','>',0)->get();
 		}
-		return view('admin.master.user.user-add')->with('groups',$arrgroup);
+
+		foreach ($groups as $g) {
+			if($g->parent==0){
+				$grouplvl[$g->groupid] = $g->groupname;
+				$this->getChildGroup($groups,$g->groupid,$grouplvl);
+			}
+		}
+
+		return view('admin.master.user.user-add')->with('groups',$grouplvl);
 	}
 
 	/**
@@ -62,7 +88,7 @@ class UserController extends Controller {
 	public function store(Request $request)
 	{
 		$rules = [
-			'name' => 'required|unique:musers',
+			'login' => 'required|unique:musers,name',
 			'email' => 'required|email',
 			'password' => 'required|confirmed'
 		];
@@ -73,7 +99,7 @@ class UserController extends Controller {
 		$user = new user;
 		$user->firstname = $request->input('firstname');
 		$user->lastname = $request->input('lastname');
-		$user->name = $request->input('name');
+		$user->name = $request->input('login');
 		$user->email = $request->input('email');
 		$user->groupid = $request->input('group');
 		$user->password = Hash::make($request->input('password'));
@@ -115,7 +141,10 @@ class UserController extends Controller {
 			$groups = group::where('status','>',0)->where('groupid','>',0)->get();
 		}
 		foreach ($groups as $g) {
-			$grouplvl[$g->groupid] = $g->groupname;
+			if($g->parent==0){
+				$grouplvl[$g->groupid] = $g->groupname;
+				$this->getChildGroup($groups,$g->groupid,$grouplvl);
+			}
 		}
 		$user = user::find($id);
 		return view('admin.master.user.user-edit')->with('user',$user)->with('groups',$grouplvl);
@@ -155,7 +184,7 @@ class UserController extends Controller {
 		//end cek
 		
 		$user->firstname = $request->get('firstname');
-		$user->lastname = $request->get('firstname');
+		$user->lastname = $request->get('lastname');
 		$user->name = $request->get('login');
 		$user->email = $request->get('email');
 		$user->password = $newpassword;

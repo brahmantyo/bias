@@ -14,7 +14,7 @@
 <!-- 				<span class="pull-right"><a class="btn btn-success" id="tambah" href="/admin/barang/create">Tambah</a></span>		    	 -->
 
 				<span class="pull-left">
-					<div class="col-sm-4">
+					<div class="col-sm-4 col-xs-12">
 						{!! Form::open(['url'=>'/admin/barang/daftar','method'=>'GET','class'=>'form-inline']) !!}
 						<div class="form-group">
 							<div class="input-group">
@@ -26,11 +26,11 @@
 						</div>
 						{!! Form::close() !!}
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4 col-xs-12">
 						{!! Form::open(['url'=>'/admin/barang/daftar','method'=>'GET','class'=>'form-inline']) !!}
 						<div class="form-group">
 							<div class="input-group">
-								{!! Form::text('nama',old('nama'),['class'=>'form-control']) !!}
+								{!! Form::text('nama',old('nama'),['class'=>'form-control input-group-addon']) !!}
 								<span class="input-group-btn">
 								{!! Form::submit('Nama Barang',['class'=>'btn btn-success']) !!}
 								</span>
@@ -38,11 +38,11 @@
 						</div>
 						{!! Form::close() !!}
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4 col-xs-12">
 						{!! Form::open(['url'=>'/admin/barang/daftar','method'=>'GET','class'=>'form-inline']) !!}
 						<div class="form-group">
 							<div class="input-group">
-								{!! Form::select('divisi',array_merge([0 => '--'],array_pluck($divisi,'nama','iddivisi')),old('divisi'),['class'=>'form-control']) !!}
+								{!! Form::select('divisi',array_merge([0 => '--'],array_pluck($divisi,'nama','iddivisi')),old('divisi'),['class'=>'form-control input-group-addon']) !!}
 								<span class="input-group-btn">
 									{!! Form::submit('Divisi',['class'=>'btn btn-success']) !!}
 								</span>

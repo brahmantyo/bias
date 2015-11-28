@@ -13,7 +13,22 @@
 			<div class="box-header">
 		    	<span><h1><i class="fa fa-user-secret"></i>Purchase Order</h1></span>
 		    	<hr>
+		    	<span>
+					{!! Form::open(['url'=>'/admin/report/po/search','method'=>'GET','class'=>'form-horizontal']) !!}
+					<div class="col-lg-12">
+						<div class="form-group">
+							<div class="input-group">
+								{!! Form::text('s',old('s'),['placeholder'=>'Search everything here ...','class'=>'form-control input-group-addon ']) !!}
+								<span class="input-group-btn">
+									{!! Form::submit('Search',['class'=>'btn btn-success']) !!}
+								</span>
+							</div>
+						</div>
+					</div>
+					{!! Form::close() !!}
+		    	</span>
 		 	</div>
+
 		 	<div class="box-body table-responsive">
 		 		@if ($errors->has())
                     @foreach ($errors->all() as $error)
@@ -39,7 +54,7 @@
 		                    <td>{{ $p->nama }}</td>
 		                    <td>{{ $p->approvedby }}</td>
 		                    <td>
-		                        <a id="detail" href="/admin/po/{{ str_replace('/','-',$p->idpo) }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+		                        <a id="detail" href="/admin/report/po/show/{{ str_replace('/','-',$p->idpo) }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
 <!-- 		                        {!! Form::open(['url' => '/admin/po/' . str_replace('/','-',$p->idpo), 'method' => 'DELETE']) !!}
 		                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
 		                        {!! Form::close() !!} -->
@@ -67,7 +82,7 @@
 		ajax : {
 			dataType : 'html',
 		},
-		afterClose : function(){ window.location.replace('/admin/po') },
+		afterClose : function(){ window.location.replace('/admin/report/po') },
 	});
 
 </script>

@@ -24,17 +24,20 @@
                 @endforeach
             @endif
 
+
             {!! Form::open(['role' => 'form', 'url' => '/admin/user', 'class' => 'form-horizontal']) !!}
-                {!! Form::itext('firstname','First Name','First Name of User',old('firstname'),false,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::itext('lastname','Last Name','Last Name of User',old('lastname'),false,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::itext('name','User Name','Login ID / Username for authenticated',old('name'),true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::itext('email','Email','Email of User',old('email'),true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::iselect('group','Group',$groups,old('group'),true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::ipassword('password','Password','','',true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::ipassword('password_confirmation','Confirm','','',true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::icheckbox('status','Status',true,'Active or Inactive',true,\Session::get('privileges'),'btn_user_add') !!}
-                {!! Form::bsubmit('Simpan',['back'=>'Cancel'],\Session::get('privileges'),'btn_user_add') !!}
-            {!! Form::close() !!}
+                    {!! Form::itext('firstname','First Name','First Name of User',old('firstname')) !!}
+                    {!! Form::itext('lastname','Last Name','Last Name of User',old('lastname')) !!}
+                    {!! Form::itext('login','Login ID','Login ID',old('login'),true) !!}
+                    {!! Form::itext('email','Email','Email Address',old('email'),true) !!}
+                    {!! Form::iselect('group','Group',$groups,old('group'),true) !!}
+
+                    {!! Form::ipassword('password','Password','Password','',true) !!}
+                    {!! Form::ipassword('password_confirmation','Confirmation','Password Confirmation','',true) !!}
+                    {!! Form::icheckbox('status','Status',old('status'),'Enabled') !!}
+
+                    {!! Form::bsubmit('Save',['back'=>'Cancel']) !!}
+                {!! Form::close() !!}
 
             </div>
         </div>

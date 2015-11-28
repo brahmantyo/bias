@@ -21,15 +21,25 @@ User Manager
     <div class="well col-lg-12">
         <div class="col-lg-12">
             <table height="100%" class="table table-condensed table-striped table-bordered no-margin">
-                <tr><td>ID PO</td><td> : {{ $po->idpo }}</td></tr>
-                <tr><td>Tanggal</td><td> : {{ $po->tglpo }}</td></tr>
-                <tr><td>Supplier</td><td> : {{ $po->idsupp }}</td></tr>
-                <tr><td>Status</td><td> : {{ $po->status }}</td></tr>
-                <tr><td>Keterangan</td><td> : {{ $po->ket }}</td></tr>
-                <tr><td>Mata Uang</td><td> : {{ $po->matauang }}</td></tr>
-                <tr><td>Cara Bayar</td><td> : {{ $po->bayar }}</td></tr>
-                <tr><td>No.Kontrak</td><td> : {{ $po->contractno }}</td></tr>
-                <tr><td>Term. Bayar</td><td> : {{ $po->paymentterms }}</td></tr>
+                <tr>
+                    <td width="100px">ID PO</td><td> : {{ $po->idpo }}</td>
+                    <td width="100px">Mata Uang</td><td> : {{ $po->matauang }}</td>
+                </tr>
+                <tr>
+                    <td>Tanggal</td><td> : {{ $po->tglpo }}</td>
+                    <td>Cara Bayar</td><td> : {{ $po->bayar }}</td>
+                </tr>
+                <tr>
+                    <td>Supplier</td><td> : {{ $po->idsupp }}</td>
+                    <td>Term. Bayar</td><td> : {{ $po->paymentterms }}</td>
+                </tr>
+                <tr>
+<!--                     <td>Status</td><td> : {{ $po->status }}</td> -->
+                    <td>No.Kontrak</td><td> : {{ $po->contractno }}</td>
+                    <td>Keterangan</td><td> : {{ $po->ket }}</td>
+                </tr>
+                <tr>
+                </tr>
             </table>
             <table  class="table table-condensed table-striped table-bordered table-hover no-margin">
                 <thead>
@@ -46,7 +56,7 @@ User Manager
                     <tr>
                         <td>{{$dpo->plu}}</td>
                         <td>{{$dpo->qty}}</td>
-                        <td>{{$dpo->harga}}</td>
+                        <td>{{$dpo->hrg}}</td>
                         <td>{{$dpo->qty * $dpo->harga}}</td>
                         <td>{{$dpo->est_delivery}}</td>
                     </tr>

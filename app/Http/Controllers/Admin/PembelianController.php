@@ -16,12 +16,30 @@ class PembelianController extends Controller {
 		$this->middleware('permission:btn_pembelian_delete',['only'=>['destroy']]);
 	}
 
+    /**
+     * Search all in Pembelian List
+     *
+     * @return Response
+     * @author Y. Brahmantyo A.K
+     **/
+    public function getSearch(Request $request)
+    {
+        $s = $request->input('s');
+        $beli = beli::leftJoin('msupplier AS s','s.idsupp','=','beli.idsupp')
+                ->where('idbeli','like','%'.$s.'%')
+                ->orWhere('idpo','like','%'.$s.'%')
+                ->orWhere('tglbeli','like','%'.$s.'%')
+                ->orWhere('s.nama','like','%'.$s.'%')
+                ->paginate(\Config::get('pages'))->appends('s',$s);
+        return view('admin.transaction.pembelian.pembelian')->with('beli',$beli);
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getIndex()
 	{
 		$beli = beli::orderBy('idbeli')->paginate(Config::get('pages'));
 		return view('admin.transaction.pembelian.pembelian')->with('beli',$beli);
@@ -53,7 +71,7 @@ class PembelianController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function getShow($id)
 	{
 		$beli = beli::find($id);
 		return  view('admin.transaction.pembelian.pembelian-show')->with('beli',$beli);
@@ -92,6 +110,17 @@ class PembelianController extends Controller {
 		//
 	}
 
-	
+	/* ----------------- */
 
+	/**
+	 * Get all data pembelian
+	 *
+	 * @return ajaxrespon
+	 * @author Y.Brahmantyo. A.K
+	 **/
+	public function getBeli()
+	{
+		return [["January", 30000],["Februari", 10000]];
+	}
 }
+// ["February", "8.000.000]", ["March", "4.000.000"], ["April", "13.000.000"], ["May", "17.000.000"], ["June", "9.000.000"]

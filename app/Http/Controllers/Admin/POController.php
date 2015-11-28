@@ -17,6 +17,30 @@ class POController extends Controller
         $this->middleware('permission:btn_po_edit',['only'=>['edit','update']]);
         $this->middleware('permission:btn_po_delete',['only'=>['destroy']]);
     }
+
+    /**
+     * Search all in PO List
+     *
+     * @return Response
+     * @author Y. Brahmantyo A.K
+     **/
+    public function getSearch(Request $request)
+    {
+        $s = $request->input('s');
+        $po = po::leftJoin('msupplier AS s','s.idsupp','=','po.idsupp')
+                ->where('idpo','like','%'.$s.'%')
+                ->orWhere('tglpo','like','%'.$s.'%')
+                ->orWhere('s.nama','like','%'.$s.'%')
+                ->paginate(\Config::get('pages'))->appends('s',$s);
+        return view('admin.transaction.po')->with('po',$po);
+    }
+
+    /**
+     * Display listing of all Purchase Order     
+     * 
+     * @return Response
+     * @author Y.Brahmantyo A.K
+     */
     public function getAllpo()
     {
         $po = po::leftJoin('msupplier AS s','s.idsupp','=','po.idsupp')
@@ -25,12 +49,13 @@ class POController extends Controller
             ->paginate(\Config::get('pages'));
         return $po->toJson();
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getIndex()
     {
         $po = po::leftJoin('msupplier AS s','s.idsupp','=','po.idsupp')
             ->where('status','>','0')
@@ -66,7 +91,7 @@ class POController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getShow($id)
     {
         $po = po::find(str_replace('-','/',$id));
         return view('admin.transaction.po-show')->with('po',$po);
