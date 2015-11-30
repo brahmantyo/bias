@@ -10,7 +10,7 @@ class sales extends Model
     protected $primaryKey = 'idsales';
     public $timestamps = false;
 
-    public function getDivisi(){
-    	return $this->hasOne('App\Http\Database\divisi','iddivisi','divisi');
+    public function scopeDivisi(){
+    	return \App\Http\Database\divisi::where('iddivisi',$this->divisi)->first();
     }
 }

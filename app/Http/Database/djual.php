@@ -17,14 +17,14 @@ class djual extends Model
 
     public function barang()
     {
-    	return $this->hasMany('App\Http\Database\barang','plu','plu');
+    	return $this->hasOne('App\Http\Database\barang','plu','plu');
     }
 
-    public function getDivisi()
+    public function div()
     {
-        return $this->hasOne('App\Http\Database\divisi',$this->barang->divisi,'divisi');
+        return \App\Http\Database\divisi::find($this->barang->iddivisi);
     }
-    public function getSatuan()
+    public function scopeSatuan()
     {
         return $this->hasOne('App\Http\Database\satuan','idsatuan','satuan');
     }
