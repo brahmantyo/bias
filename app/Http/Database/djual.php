@@ -24,7 +24,7 @@ class djual extends Model
     {
         return \App\Http\Database\divisi::find($this->barang->iddivisi);
     }
-    public function scopeSatuan()
+    public function sat()
     {
         return $this->hasOne('App\Http\Database\satuan','idsatuan','satuan');
     }

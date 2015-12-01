@@ -19,9 +19,11 @@ use Illuminate\Support\Collection;
 
 //
 use App\Http\Database\article as Article;
-use App\Http\Database\kota as Kota;
-use App\Http\Database\cabang as Cabang;
-use App\Http\Database\satuan as Satuan;
+//use App\Http\Database\kota;
+use App\Http\Database\cabang;
+use App\Http\Database\divisi;
+use App\Http\Database\sales;
+use App\Http\Database\satuan;
 
 
 class AppServiceProvider extends ServiceProvider {
@@ -43,7 +45,9 @@ class AppServiceProvider extends ServiceProvider {
 		$news = array();
 		$memo = array();*/
 		$dcabang = array();
-		$dkota = array();
+		$ddivisi = array();
+		$dsales = array();
+		// $dkota = array();
 		$dsatuan = array();
 		
 		Config::set('registered',false);
@@ -66,23 +70,42 @@ class AppServiceProvider extends ServiceProvider {
 		foreach ($kota as $v) {
 			$dkota[$v->idkota] = $v->nmkota;
 		}
-		$satuan = Satuan::all();
-		foreach ($satuan as $v) {
-			$dsatuan[$v->idsatuan]= $v->namasatuan;
-		}
-		$cabang = Cabang::all();
+
+		*/
+		$cabang = cabang::all();
 		foreach ($cabang as $v) {
 			$dcabang[$v->idcabang]= $v->nama;
 		}
 		$dcabang = Helpers::assoc_merge([0=>'--Daftar Cabang--'],$dcabang);
-		*/
+
+		$divisi = divisi::all();
+		foreach ($divisi as $v) {
+			$ddivisi[$v->nama]= $v->nama;
+		}
+		$ddivisi = Helpers::assoc_merge([0=>'--Semua Divisi--'],$ddivisi);
+
+		$sales = sales::all();
+		foreach ($sales as $v) {
+			$dsales[$v->nama]= $v->nama;
+		}
+		$dsales = Helpers::assoc_merge([0=>'--Semua Sales--'],$dsales);
+
+		
+		$satuan = satuan::all();
+		foreach ($satuan as $v) {
+			$dsatuan[$v->namasatuan]= $v->namasatuan;
+		}
+
+
 		$data = array(
 	/*		'abouts'=>$abouts,
 			'news'=>$news,
 			'memo'=>$memo,
-			'kota'=>$dkota,
+			'kota'=>$dkota,*/
 			'satuan'=>$dsatuan,
-			'cabang'=>$dcabang,*/
+			'cabang'=>$dcabang,
+			'divisi'=>$ddivisi,
+			'sales'=>$dsales,
 			'menu'=>Config::get('menu'),
 			'notification'=>[
 				'all'=>0,

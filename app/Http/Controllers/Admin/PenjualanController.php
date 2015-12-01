@@ -4,23 +4,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Config;
+use Session;
 use Illuminate\Http\Request;
 use App\Http\Database\jual;
 
 class PenjualanController extends Controller {
-
-	public function __construct(Request $request)
+	public function __construct()
 	{
 		$this->middleware('permission:menu_penjualan');
 		$this->middleware('permission:btn_penjualan_add',['only'=>['create','store']]);
 		$this->middleware('permission:btn_penjualan_edit',['only'=>['edit','update']]);
 		$this->middleware('permission:btn_penjualan_delete',['only'=>['destroy']]);
-        if($request->get('show')){
-            $pages = $request->get('show')=='all'?jual::count():$request->get('show');
-            Config::set('pages', $pages);
-        }
-        return \View::share(['divisi'=>['putihan','beachwear']]);
 	}
+
 	/**
 	 * Menampilkan daftar transaksi penjualan
 	 *
@@ -28,46 +24,45 @@ class PenjualanController extends Controller {
 	 */
 	public function getIndex(Request $request)
 	{
-        //Search variable
-        $s = $request->get('s'); //Search anything
-        $tgl1 = $request->input('tgl1');
-        $tgl2 = $request->input('tgl2');
-        $divisi = $request->input('divisi');
-        $konsumen = $request->input('konsumen');
-        $sales = $request->input('sales');
-        //End search variable
+        $errmsg = ['Just do Advanced Search'];
+        $jual = jual::where('status','=',1);
 
-        if($request->input('adv')){
-            $tgl1 = $request->input('tgl1');
-            $tgl2 = $request->input('tgl2');
-            $divisi = $request->input('divisi');
-            $konsumen = $request->input('konsumen');
-            $sales = $request->input('sales');
-        } else {
-            $jual = jual::join('mkonsumen AS k','k.idkonsumen','=','jual.idkons')
+        if($request->input('mode')=='adv'){
+            $errmsg=[];
+            $this->appends = ['mode'=>'adv'];
+            $jual->join('mkonsumen AS k','k.idkonsumen','=','jual.idkons')
             ->join('msales AS sl','sl.idsales','=','jual.idsales')
             ->join('mdivisi AS d','d.iddivisi','=','sl.divisi')
-            ->where('idtrx','like','%'.$s.'%')
-            ->orWhere('d.nama','like','%'.$s.'%')
-            ->orWhere('tgl','like','%'.$s.'%')
-            ->orWhere('k.nama','like','%'.$s.'%')
-            ->orWhere('sl.nama','like','%'.$s.'%')
+            ->where(function($query) use($request){
+                    $tgl1 = $request->input('tgl1');
+                    $tgl2 = $request->input('tgl2');
+                    $divisi = $request->input('divisi');
+                    $konsumen = $request->input('konsumen');
+                    $sales = $request->input('sales');
+                    
+                    if($tgl1 && $tgl2){
+                        $query->where('tgl','>=',$tgl1)->where('tgl','<=',$tgl2);
+                        $this->appends['tgl1']=$tgl1;
+                        $this->appends['tgl2']=$tgl2;                    
+                    }
+                    if($divisi){
+                        $query->where('d.nama','like','%'.$divisi.'%');
+                        $this->appends['divisi']=$divisi;
+                    }
+                    if($konsumen){
+                        $query->where('k.nama','like','%'.$konsumen.'%');
+                        $this->appends['konsumen']=$konsumen;
+                    }
+                    if($sales){
+                        $query->where('sl.nama','like','%'.$sales.'%');
+                        $this->appends['sales']=$sales;
+                    }        
+                    return $query;
+                })
             ->where('status','=',1);
+            $jual = $jual->get();
         }
-
-    //if($request->get('s')){
-
-        $total = [
-            //'s'=>$request->get('s'),
-            'total'=>$jual->count(),
-            'totbruto'=>$jual->sum('totbruto'),
-            'totqty'=>$jual->sum('totqty'),
-            'totdiskon'=>$jual->sum('totdiskon'),
-            'totnetto'=>$jual->sum('totnetto')
-        ];
-        
-        //}
-        return view('admin.transaction.penjualan.penjualan',$total)->with('jual',$jual->paginate(Config::get('pages'))->appends('s',$s)->appends('show',Config::get('pages')));
+        return view('admin.transaction.penjualan.penjualan')->with('jual',$jual)->withErrors($errmsg);
 	}
 
 	/**

@@ -13,6 +13,25 @@
         <!-- /.search form -->
 @endsection
 
+@section('head')
+
+<link href="{{ asset('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css" />    
+<link href="{{ asset('/plugins/daterangepicker2/daterangepicker.css') }}" rel="stylesheet" type="text/css"  />
+
+<script src="{{ asset('/plugins/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('/plugins/DataTables/Buttons-1.1.0/js/jszip.min.js') }}"></script>
+<script src="{{ asset('/plugins/DataTables/Buttons-1.1.0/js/pdfmake.min.js') }}"></script>
+<script src="{{ asset('/plugins/DataTables/Buttons-1.1.0/js/vfs_fonts.js') }}"></script>
+<script src="{{ asset('/plugins/DataTables/Buttons-1.1.0/js/buttons.html5.min.js') }}"></script>
+<!-- <script src="{{ asset('/plugins/DataTables/Buttons-1.1.0/buttons.print.min.js') }}"></script> -->
+<script src="{{ asset('/plugins/DataTables/Plugins/sum.js') }}"></script>
+<!-- <script src="https://cdn.datatables.net/select/1.1.0/js/dataTables.select.min.js"></script>
+ -->
+<script src="{{ asset('/plugins/daterangepicker2/moment.js') }}"></script>
+<script src="{{ asset('/plugins/daterangepicker2/daterangepicker.js') }}"></script>
+
+@endsection
+
 @section('content-header')
 <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -26,88 +45,45 @@
         <div class="box">
             <div class="box-header">
                 <span><h1><i class="fa fa-user-secret"></i>Penjualan</h1></span>
-                <hr>
-                <span>
-                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-horizontal']) !!}
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <div class="input-group">
-                                {!! Form::text('s',old('s'),['placeholder'=>'Search everything here ...','class'=>'form-control input-group-addon ']) !!}
-                                <span class="input-group-btn">
-                                    {!! Form::submit('Search',['class'=>'btn btn-success']) !!}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
-                    <a href="#asearch">Advanced Search</a>
-                </span>
+                <a href="#asearch" class="btn btn-success">Advanced Search</a>
+
                 <span id='asearch' style="display:none">
-                    <h3>Advanced Search</h3>
-                    {!! Form::open(['url'=>'/admin/penjualan','class'=>'form-inline']) !!}
+                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-inline']) !!}
+                    {!! Form::hidden('mode','adv') !!}
                     <div class="col-lg-12">
                             <div class="input-control">
                                 <label class="control-label ">Range Tanggal</label>
-                                {!! Form::text('tgl1',old('tgl1'),['placeholder'=>'Tanggal Awal','class'=>'form-control']) !!}
-                                {!! Form::text('tgl2',old('tgl2'),['placeholder'=>'Tanggal Akhir','class'=>'form-control']) !!}
-                                {!! Form::checkbox('ctgl',old('ctgl')) !!}
+                                {!! Form::text('tgl1',\Request::input('tgl1'),['placeholder'=>'Tanggal Awal','class'=>'form-control']) !!}
+                                {!! Form::text('tgl2',\Request::input('tgl2'),['placeholder'=>'Tanggal Akhir','class'=>'form-control']) !!}
                             </div>
                             <div class="input-control">
                                 <label class="control-label ">Divisi</label>
-                                {!! Form::select('divisi',$divisi,old('divisi'),['class'=>'form-control']) !!}
-                                {!! Form::checkbox('cdivisi',old('cdivisi')) !!}
+                                {!! Form::select('divisi',$divisi,\Request::input('divisi'),['class'=>'form-control']) !!}
                             </div>
                             <div class="input-control">
                                 <label class="control-label ">Konsumen</label>
-                                {!! Form::text('konsumen',old('konsumen'),['placeholder'=>'Nama Konsumen','class'=>'form-control']) !!}
-                                {!! Form::checkbox('ckonsumen',old('ckonsumen')) !!}
+                                {!! Form::text('konsumen',\Request::input('konsumen'),['placeholder'=>'Nama Konsumen','class'=>'form-control']) !!}
                             </div>
                             <div class="input-control">
                                 <label class="control-label ">Sales</label>
-                                {!! Form::text('sales',old('saless'),['placeholder'=>'Tanggal Awal','class'=>'form-control']) !!}
-                                {!! Form::text('tgl2',old('tgl2'),['placeholder'=>'Tanggal Akhir','class'=>'form-control']) !!}
-                                {!! Form::checkbox('tgl','Range Tanggal',old('tgl')) !!}
+                                {!! Form::select('sales',$sales,\Request::input('sales'),['class'=>'form-control']) !!}
                             </div>
                     </div>
                     {!! Form::submit('Search',['class'=>'btn btn-success']) !!}
                     {!! Form::close() !!}
                 </span>
             </div>
+
             <div class="box-body table-responsive">
                 @if ($errors->has())
                     @foreach ($errors->all() as $error)
                         <div class='bg-danger alert'>{{ $error }}</div>
                     @endforeach
                 @endif
-
-                <div class="col-lg-12 col-sm-12">
-                    <div class="col-lg-4 pull-left">
-                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-horizontal']) !!}
-                        <div class="form-group" style="max-width:200px">
-                            <div class="input-group">
-                                {!! Form::select('show',['5'=>'5','10'=>'10','50'=>'50','100'=>'100','all'=>'All'],\Config::get('pages'),['class'=>'form-control']) !!}
-                                <span class="input-group-btn">
-                                    {!! Form::submit('Pages',['class'=>'btn btn-success']) !!}
-                                </span>
-                            </div>
-                        </div>
-                    {!! Form::close() !!}
-                    </div>
-                    <style type="text/css">
-                    .pagination {
-                        margin : 0px !important;
-                    }
-                    </style>
-                    <div class="offset-lg-4 pull-right">
-                    {!! $jual->render() !!}
-                    </div>
-                </div>
-
-
-                <table class="table table-condensed table-striped table-bordered table-hover no-margin">
+                <table  id="tbjual" class="table display responsive">
                     <thead>
                         <tr>
-                            <th width="20"></th>
+                            <th></th>
                             <th>ID Penjualan</th>
                             <th>Tgl</th>
                             <th>Konsumen</th>
@@ -116,7 +92,6 @@
                             <th>Payment</th>
                             <th>Tempo</th>
                             <th>Qty</th>
-                            <th>Satuan</th>
                             <th>Bruto</th>
                             <th>Disc</th>
                             <th>Netto</th>
@@ -126,21 +101,11 @@
                     </thead>
          
                     <tbody>
-                        <?php
-                            $tqty=0;
-                            $tbruto=0;
-                            $tdisc=0;
-                            $tnetto=0;
-                        ?>
                         @foreach ($jual as $j)
                         <tr>
                             <td>
                                 <a href="/admin/penjualan/show/{{ $j->idtrx }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
-<!--                                 <a href="/admin/penjualan/{{ $j->idtrx }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-                                {!! Form::open(['url' => '/admin/penjualan/' . $j->idtrx, 'method' => 'DELETE']) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                {!! Form::close() !!}
- -->                        </td> 
+                            </td> 
                             <td>{{ $j->idtrx }}</td>
                             <td>{{ $j->tgl }}</td>
                             <td>{{ $j->konsumen->nama }}</td>
@@ -148,70 +113,35 @@
                             <td>{{ $j->sales->divisi()->nama }}</td>
                             <td>{{ $j->payment }}</td>
                             <td>{{ $j->tempo }}</td>
-                            <td style="text-align:right">{{ \App\Helpers::currency($j->detail->sum('qty')) }}</td>
-                            <td></td>
-                            <td style="text-align:right">{{ \App\Helpers::currency($j->totbruto )}}</td>
-                            <td style="text-align:right">{{ \App\Helpers::currency($j->totdiskon) }}</td>
-                            <td style="text-align:right">{{ \App\Helpers::currency($j->totnetto )}}</td>
+                            <td style="text-align:right">{{ $j->totqty }}</td>
+                            <td style="text-align:right">{{ $j->totbruto }}</td>
+                            <td style="text-align:right">{{ $j->totdiskon }}</td>
+                            <td style="text-align:right">{{ $j->totnetto }}</td>
                             <td>{{ $j->ket }}</td>
                             <td>{{ $j->kasir }}</td>
 
                         </tr>
-                        <?php
-                            $tqty = $tqty + $j->totqty;
-                            $tbruto = $tbruto + $j->totbruto;
-                            $tdisc = $tdisc + $j->totdiskon;
-                            $tnetto = $tnetto + $j->totnetto;
-                        ?>
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr style="text-align:right">
-                            <th colspan="8">Total</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($tqty) }}</th>
+                        <tr>
+                            <th>Total</th>
                             <th></th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($tbruto) }}</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($tdisc) }}</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($tnetto) }}</th>
-                            <th colspan="2"></th>
-                        </tr>
-                        <tr style="text-align:right">
-                            <th colspan="8">Grand Total (  {{ $total }} rows)</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($totqty) }}</th>
                             <th></th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($totbruto) }}</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($totdiskon) }}</th>
-                            <th style="text-align:right">{{ \App\Helpers::currency($totnetto) }}</th>
-                            <th colspan="2"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                            <th style="text-align:right"></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </tfoot>
-
                 </table>
-                <div class="pull-left">
-
-                </div>
-                <div class="col-lg-12 col-sm-12">
-                    <div class="col-lg-4 pull-left">
-                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-horizontal']) !!}
-                        <div class="form-group" style="max-width:200px">
-                            <div class="input-group">
-                                {!! Form::select('show',['5'=>'5','10'=>'10','50'=>'50','100'=>'100','all'=>'All'],\Config::get('pages'),['class'=>'form-control']) !!}
-                                <span class="input-group-btn">
-                                    {!! Form::submit('Pages',['class'=>'btn btn-success']) !!}
-                                </span>
-                            </div>
-                        </div>
-                    {!! Form::close() !!}
-                    </div>
-                    <style type="text/css">
-                    .pagination {
-                        margin : 0px !important;
-                    }
-                    </style>
-                    <div class="offset-lg-4 pull-right">
-                    {!! $jual->render() !!}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -221,21 +151,76 @@
     $('a:contains("Detail")').fancybox({
         type : 'iframe',
         href : this.value,
-        autoSize: false,
-        width: 1024,
-        height: 800,
+        fitToView: true,
+        minWidth: "80%",
+//        width: 1024,
+//        height: 800,
         openSpeed: 1,
         closeSpeed: 1,
         ajax : {
             dataType : 'html',
         },
-        afterClose : function(){ window.location.replace('/admin/penjualan') },
+        //afterClose : function(){ window.location.replace('/admin/penjualan') },
     });
     $('a:contains("Advanced Search")').fancybox({
         href : this.value,
-        autoSize: true,
+        fitToView: true,
+        minWidth: "80%",
+        minHeight: "90%",
         openSpeed: 1,
         closeSpeed: 1,
     });
+
+    var table = $('#tbjual').DataTable({
+        dom: 'Bflrtip',
+        order: [[1,'desc']],
+        select: true,
+        buttons: [
+            'colvis','pdf','excel',
+        ],
+        responsive: true,
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 1, targets: 1 },
+            { responsivePriority: 1, targets: 2, render: function(data){
+                return moment(data).format('DD MMM YYYY');
+            } },
+            { responsivePriority: 2, targets: 3 },
+            { responsivePriority: 2, targets: 4 },
+            { responsivePriority: 2, targets: 5 },
+            { responsivePriority: 1,  targets: -3, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { responsivePriority: 10, targets: -4, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { responsivePriority: 10, targets: -5, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { responsivePriority: 10, targets: -6, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+        ],
+        colReorder: true,
+        drawCallback: function() {
+          var api = this.api();
+          $(api.table().column(8).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(8,{filter:'applied'} ).data().sum())
+          );
+          $(api.table().column(10).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(10,{filter:'applied'} ).data().sum())
+          );     
+          $(api.table().column(11).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(11,{filter:'applied'} ).data().sum())
+          );     
+          $(api.table().column(12).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(12,{filter:'applied'} ).data().sum())
+          );     
+        }
+    });
+$('input[name="tgl1"]').daterangepicker(
+{
+    showDropdowns: true,
+    locale: {
+      format: 'YYYY-MM-DD'
+    },
+    //startDate: '2013-01-01',
+    //endDate: '2013-12-31'
+}, 
+function(start, end, label) {
+    alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+});
 </script>
 @endsection
