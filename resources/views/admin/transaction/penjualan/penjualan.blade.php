@@ -29,7 +29,11 @@
  -->
 <script src="{{ asset('/plugins/daterangepicker2/moment.js') }}"></script>
 <script src="{{ asset('/plugins/daterangepicker2/daterangepicker.js') }}"></script>
-
+<style type="text/css">
+.daterangepicker {
+    z-index: 9030 !important;
+}
+</style>
 @endsection
 
 @section('content-header')
@@ -48,13 +52,16 @@
                 <a href="#asearch" class="btn btn-success">Advanced Search</a>
 
                 <span id='asearch' style="display:none">
-                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-inline']) !!}
+                    {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-']) !!}
                     {!! Form::hidden('mode','adv') !!}
                     <div class="col-lg-12">
                             <div class="input-control">
                                 <label class="control-label ">Range Tanggal</label>
-                                {!! Form::text('tgl1',\Request::input('tgl1'),['placeholder'=>'Tanggal Awal','class'=>'form-control']) !!}
-                                {!! Form::text('tgl2',\Request::input('tgl2'),['placeholder'=>'Tanggal Akhir','class'=>'form-control']) !!}
+                                <span  id="tgl"><a><i class="fa fa-calendar"></a></i>
+                                    <span></span>
+                                </span>
+                                {!! Form::hidden('tgl1',\Request::input('tgl1')) !!}
+                                {!! Form::hidden('tgl2',\Request::input('tgl2')) !!}
                             </div>
                             <div class="input-control">
                                 <label class="control-label ">Divisi</label>
@@ -210,17 +217,17 @@
           );     
         }
     });
-$('input[name="tgl1"]').daterangepicker(
+$('#tgl').daterangepicker(
 {
-    showDropdowns: true,
-    locale: {
-      format: 'YYYY-MM-DD'
-    },
-    //startDate: '2013-01-01',
-    //endDate: '2013-12-31'
+    'startDate': '09/01/2015',
+    'endDate': '12/31/2015',
+    'opens': 'center'
 }, 
 function(start, end, label) {
-    alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    $('#tgl span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+    $('input[name="tgl1"]').val(start.format('YYYY-MM-DD'));
+    $('input[name="tgl2"]').val(end.format('YYYY-MM-DD'));
 });
+
 </script>
 @endsection
