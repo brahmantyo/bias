@@ -9,12 +9,18 @@ use Illuminate\Http\Request;
 use App\Http\Database\jual;
 
 class PenjualanController extends Controller {
-	public function __construct()
+	public function __construct(Request $request)
 	{
 		$this->middleware('permission:menu_penjualan');
 		$this->middleware('permission:btn_penjualan_add',['only'=>['create','store']]);
 		$this->middleware('permission:btn_penjualan_edit',['only'=>['edit','update']]);
 		$this->middleware('permission:btn_penjualan_delete',['only'=>['destroy']]);
+        //Get range tgl for pdf title
+        $tgl1=$request->input('tgl1');
+        $tgl2=$request->input('tgl2');
+        if($tgl1 && $tgl2){
+            return \View::share(['pdfTitle'=>"\nTgl:".$tgl1." s/d ".$tgl2]);
+        }
 	}
 
 	/**
@@ -39,7 +45,6 @@ class PenjualanController extends Controller {
                     $divisi = $request->input('divisi');
                     $konsumen = $request->input('konsumen');
                     $sales = $request->input('sales');
-                    
                     if($tgl1 && $tgl2){
                         $query->where('tgl','>=',$tgl1)->where('tgl','<=',$tgl2);
                         $this->appends['tgl1']=$tgl1;
