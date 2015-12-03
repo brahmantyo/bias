@@ -64,7 +64,7 @@ ol.breadcrumb {
                             <div class="input-control">
                                 <label class="control-label ">Range Tanggal</label>
                                 <span  id="tgl"><a><i class="fa fa-calendar"></a></i>
-                                    <span></span>
+                                    <span class="badge badge-default">{{\Request::input('tgl1').'s/d'.\Request::input('tgl2')}}</span>
                                 </span>
                                 {!! Form::hidden('tgl1',\Request::input('tgl1')) !!}
                                 {!! Form::hidden('tgl2',\Request::input('tgl2')) !!}
@@ -187,7 +187,8 @@ ol.breadcrumb {
     function getURLParameter(name) {
       return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
     }
-    var pdfTitle = '\nTgl: '+moment(getURLParameter('tgl1')).format('DD MMMM YYYY')+' s/d '+moment(getURLParameter('tgl2')).format('DD MMMM YYYY');
+    var curTgl = moment(getURLParameter('tgl1')).format('DD MMMM YYYY')+' s/d '+moment(getURLParameter('tgl2')).format('DD MMMM YYYY');
+    var pdfTitle = '\nTgl: '+curTgl;
 
     var table = $('#tbjual').DataTable({
         dom: 'Bflrtip',
@@ -311,10 +312,12 @@ $('#tgl').daterangepicker(
     'opens': 'center'
 }, 
 function(start, end, label) {
-    $('#tgl span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+    $('#tgl span').html(start.format('D MMMM YYYY') + ' s/d ' + end.format('D MMMM YYYY'));
     $('input[name="tgl1"]').val(start.format('YYYY-MM-DD'));
     $('input[name="tgl2"]').val(end.format('YYYY-MM-DD'));
 });
+
+$('#tgl span').html(curTgl);
 
 </script>
 @endsection
