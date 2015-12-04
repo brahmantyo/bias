@@ -93,6 +93,7 @@ ol.breadcrumb {
                         <div class='bg-danger alert'>{{ $error }}</div>
                     @endforeach
                 @endif
+                @if(\Request::input('mode')=='adv')
                 <table  id="tbjual" class="table display responsive">
                     <thead>
                         <tr>
@@ -155,6 +156,7 @@ ol.breadcrumb {
                         </tr>
                     </tfoot>
                 </table>
+                @endif
             </div>
         </div>
     </div>
@@ -262,38 +264,38 @@ ol.breadcrumb {
                         column_number: 3,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 4,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 5,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        data: $.makeArray(api.column(5,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(5,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 6,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        data: $.makeArray(api.column(6,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(6,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 12,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        data: $.makeArray(api.column(12,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(12,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 13,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
                         filter_match_mode: 'contains',
-                        data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
+                        //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
                     },
                 ]);
         } 

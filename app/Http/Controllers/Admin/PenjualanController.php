@@ -31,12 +31,10 @@ class PenjualanController extends Controller {
 	public function getIndex(Request $request)
 	{
         $errmsg = ['Just do Advanced Search'];
-        $jual = jual::where('status','=',1);
-
         if($request->input('mode')=='adv'){
             $errmsg=[];
             $this->appends = ['mode'=>'adv'];
-            $jual->join('mkonsumen AS k','k.idkonsumen','=','jual.idkons')
+            $jual = jual::join('mkonsumen AS k','k.idkonsumen','=','jual.idkons')
             ->join('msales AS sl','sl.idsales','=','jual.idsales')
             ->join('mdivisi AS d','d.iddivisi','=','sl.divisi')
             ->where(function($query) use($request){
@@ -64,10 +62,10 @@ class PenjualanController extends Controller {
                     }        
                     return $query;
                 })
-            ->where('status','=',1);
-            $jual = $jual->get();
-        }
+            ->where('status','=',1)->get();
         return view('admin.transaction.penjualan.penjualan')->with('jual',$jual)->withErrors($errmsg);
+        }
+        return view('admin.transaction.penjualan.penjualan')->withErrors($errmsg);
 	}
 
 	/**
