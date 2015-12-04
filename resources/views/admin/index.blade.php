@@ -7,7 +7,7 @@
         <div class='bg-danger alert'>{!! $error !!}</div>
         @endforeach
     @endif
-    {{--
+    <div class="alert alert-warning">Info berikut ini belum data real !</div>
     <div class="row">
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
@@ -78,7 +78,7 @@
         </div><!-- /.box-body-->
       </div><!-- /.box -->
     </div>
-    --}}
+    
 
 <!-- Script Area -->
 
