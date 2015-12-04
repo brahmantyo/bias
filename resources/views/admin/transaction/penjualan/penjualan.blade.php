@@ -97,20 +97,20 @@ ol.breadcrumb {
                 <table  id="tbjual" class="table display responsive">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>ID Penjualan</th>
-                            <th>Tgl</th>
-                            <th>Konsumen</th>
-                            <th>Sales</th>
-                            <th>Divisi</th>
-                            <th>Payment</th>
-                            <th>Tempo</th>
-                            <th>Qty</th>
-                            <th>Bruto</th>
-                            <th>Disc</th>
-                            <th>Netto</th>
-                            <th>Keterangan</th>
-                            <th>Kasir</th>
+                            <th width="8"></th>
+                            <th width="12">ID Penjualan</th>
+                            <th width="12">Tgl<br/></th>
+                            <th width="30">Konsumen<br/></th>
+                            <th width="12">Sales<br/></th>
+                            <th width="12">Divisi<br/></th>
+                            <th width="12">Payment<br/></th>
+                            <th width="8">Tempo<br/></th>
+                            <th width="12">Qty</th>
+                            <th width="12">Bruto</th>
+                            <th width="12">Disc</th>
+                            <th width="12">Netto</th>
+                            <th>Keterangan<br/></th>
+                            <th width="12">Kasir<br/></th>
                         </tr>
                     </thead>
          
@@ -132,7 +132,7 @@ ol.breadcrumb {
                             <td style="text-align:right">{{ $j->totdiskon }}</td>
                             <td style="text-align:right">{{ $j->totnetto }}</td>
                             <td>{{ $j->ket }}</td>
-                            <td>{{ $j->kasir }}</td>
+                            <td>{{ ucfirst($j->kasir) }}</td>
 
                         </tr>
                         @endforeach
@@ -194,7 +194,7 @@ ol.breadcrumb {
 
     var table = $('#tbjual').DataTable({
         dom: 'Bflrtip',
-        order: [[1,'desc']],
+        order: [[2,'desc']],
         select: true,
         buttons: [
             {
@@ -225,17 +225,18 @@ ol.breadcrumb {
                 }
             }
         ],
-
         responsive: true,
         columnDefs: [
             { responsivePriority: 1, targets: 0, orderable: false },
             { responsivePriority: 1, targets: 1 },
             { responsivePriority: 1, targets: 2, render: function(data){
-                return moment(data).format('DD MMM YYYY');
+                return moment(data).format('DD/MM/YYYY');
             } },
             { responsivePriority: 2, targets: 3 },
             { responsivePriority: 2, targets: 4 },
             { responsivePriority: 2, targets: 5 },
+            { responsivePriority: 2, targets: -1 },
+            { responsivePriority: 2, targets: -2 },
             { responsivePriority: 1,  targets: -3, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
             { responsivePriority: 10, targets: -4, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
             { responsivePriority: 10, targets: -5, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
@@ -264,30 +265,36 @@ ol.breadcrumb {
                         column_number: 3,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_default_label: '--Pilih Konsumen--',
+                        filter_reset_button_text: false
                         //data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 4,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_default_label: '--Pilih Sales--',
                         //data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 5,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_default_label: '--Pilih Divisi--',
                         //data: $.makeArray(api.column(5,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 6,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_default_label: '--Pilih Payment--',
                         //data: $.makeArray(api.column(6,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 12,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_default_label: '--Pilih Nota--',
                         //data: $.makeArray(api.column(12,{filter:'applied'} ).data().sort().unique())
                     },
                     {
@@ -295,6 +302,7 @@ ol.breadcrumb {
                         filter_type: 'multi_select',
                         select_type: 'chosen',
                         filter_match_mode: 'contains',
+                        filter_default_label: '--Pilih Kasir--',
                         //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
                     },
                 ]);
@@ -321,5 +329,9 @@ function(start, end, label) {
 
 $('#tgl span').html(curTgl);
 
+$(window).on( 'resize', function () {
+    table.fnAdjustColumnSizing();
+  console.log( 'Resize', $(window).width(), $(window).height() );
+} );
 </script>
 @endsection

@@ -63,7 +63,7 @@ class PenjualanController extends Controller {
                     return $query;
                 })
             ->where('status','=',1)->get();
-        return view('admin.transaction.penjualan.penjualan')->with('jual',$jual)->withErrors($errmsg);
+        return view('admin.transaction.penjualan.penjualan')->with('jual',$jual);
         }
         return view('admin.transaction.penjualan.penjualan')->withErrors($errmsg);
 	}
