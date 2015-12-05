@@ -15,9 +15,10 @@ use App\Helpers as Helpers;
 Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Admin'],function()
 {
 	//-- Base --//
-	Route::get('/',function(){
+	Route::get('/','AdminController@index');
+/*	Route::get('/',function(){
 		return view('admin.index');
-	});
+	});*/
 	Route::get('about',function(){
 		return view('admin.about');
 	});
@@ -87,3 +88,5 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('/allsales','Admin\AdminController@index');
