@@ -54,7 +54,7 @@ ol.breadcrumb {
     <div class="col-lg-12">
         <div class="box">
             <div class="box-header">
-                <span><h1><i class="fa fa-user-secret"></i>Penjualan</h1></span>
+                <span><h1><i class="fa fa-user-secret"></i>Penjualan {{\App\Helpers::dateFromMysqlSystem(\Request::get('tgl1')).' s/d '.\App\Helpers::dateFromMysqlSystem(\Request::get('tgl2'))}}</h1></span>
                 <a href="#asearch" class="btn btn-success">Advanced Search</a>
                 <button id="reset" class="btn btn-warning">Reset Filter</button>
                 <span id='asearch' style="display:none">
@@ -94,6 +94,20 @@ ol.breadcrumb {
                     @endforeach
                 @endif
                 @if(\Request::input('mode')=='adv')
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Filter : </th>
+                            <td id="fkonsumen"></td>
+                            <td id="fsales"></td>
+                            <td id="fdivisi"></td>
+                            <td id="fpayment"></td>
+                            <td id="fnota"></td>
+                            <td id="fkasir"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
                 <table  id="tbjual" class="table display responsive">
                     <thead>
                         <tr>
@@ -101,8 +115,8 @@ ol.breadcrumb {
                             <th width="12">ID Penjualan</th>
                             <th width="12">Tgl<br/></th>
                             <th width="30">Konsumen<br/></th>
-                            <th width="12">Sales<br/></th>
-                            <th width="12">Divisi<br/></th>
+                            <th width="20">Sales<br/></th>
+                            <th width="18">Divisi<br/></th>
                             <th width="12">Payment<br/></th>
                             <th width="8">Tempo<br/></th>
                             <th width="12">Qty</th>
@@ -132,7 +146,7 @@ ol.breadcrumb {
                             <td style="text-align:right">{{ $j->totdiskon }}</td>
                             <td style="text-align:right">{{ $j->totnetto }}</td>
                             <td>{{ $j->ket }}</td>
-                            <td>{{ ucfirst($j->kasir) }}</td>
+                            <td>{{ strtoupper($j->kasir) }}</td>
 
                         </tr>
                         @endforeach
@@ -203,11 +217,25 @@ ol.breadcrumb {
                 text: 'Show/Hide Columns',
             },
             {
+                extend: 'csv',
+                text: 'Save to CSV',
+                title: 'Data Penjualan '+pdfTitle,
+                exportOptions: {
+                    columns: ':not(:first-child)',
+                    modifier: {
+                        filter: 'applied'
+                    }
+                }
+            },
+            {
                 extend: 'excel',
                 text: 'Save to Excel',
                 title: 'Data Penjualan '+pdfTitle,
                 exportOptions: {
                     columns: ':not(:first-child)',
+                    modifier: {
+                        filter: 'applied'
+                    }
                 }
             },
             {
@@ -265,14 +293,15 @@ ol.breadcrumb {
                         column_number: 3,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fkonsumen',
                         filter_default_label: '--Pilih Konsumen--',
-                        filter_reset_button_text: false
                         //data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 4,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fsales',
                         filter_default_label: '--Pilih Sales--',
                         //data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
                     },
@@ -280,6 +309,7 @@ ol.breadcrumb {
                         column_number: 5,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fdivisi',
                         filter_default_label: '--Pilih Divisi--',
                         //data: $.makeArray(api.column(5,{filter:'applied'} ).data().sort().unique())
                     },
@@ -287,6 +317,7 @@ ol.breadcrumb {
                         column_number: 6,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fpayment',
                         filter_default_label: '--Pilih Payment--',
                         //data: $.makeArray(api.column(6,{filter:'applied'} ).data().sort().unique())
                     },
@@ -294,13 +325,16 @@ ol.breadcrumb {
                         column_number: 12,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fnota',
                         filter_default_label: '--Pilih Nota--',
+                        filter_match_mode: 'exact',
                         //data: $.makeArray(api.column(12,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 13,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fkasir',
                         filter_match_mode: 'contains',
                         filter_default_label: '--Pilih Kasir--',
                         //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
@@ -330,8 +364,12 @@ function(start, end, label) {
 $('#tgl span').html(curTgl);
 
 $(window).on( 'resize', function () {
-    table.fnAdjustColumnSizing();
-  console.log( 'Resize', $(window).width(), $(window).height() );
+    //table.fnAdjustColumnSizing();
+} );
+$('#tbjual').on( 'column-visibility.dt', function ( e, settings, column, state ) {
+    console.log(
+        'Column '+ column +' has changed to '+ (state ? 'visible' : 'hidden')
+    );
 } );
 </script>
 @endsection

@@ -39,8 +39,8 @@
         <!-- small box -->
         <div class="small-box bg-red">
           <div class="inner">
-            <h3>354</h3>
-            <p>All Customers</p>
+            <h3>{{$kon}}</h3>
+            <p>All Active Customers</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -52,13 +52,13 @@
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
-            <h3>Rp 450.080.500</h3>
+            <h3>{{$lms['num']}}</h3>
             <p>Last monthly sales</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <a href="/admin/penjualan/?mode=adv&tgl1={{$lms['tgl1']}}&tgl2={{$lms['tgl2']}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
       </div>
     </div>
