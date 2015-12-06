@@ -233,6 +233,7 @@ ol.breadcrumb {
                 title: 'Data Penjualan '+pdfTitle,
                 exportOptions: {
                     columns: ':not(:first-child)',
+                    orthogonal: 'export',
                     modifier: {
                         filter: 'applied'
                     }
@@ -265,25 +266,25 @@ ol.breadcrumb {
             { responsivePriority: 2, targets: 5 },
             { responsivePriority: 2, targets: -1 },
             { responsivePriority: 2, targets: -2 },
-            { responsivePriority: 1,  targets: -3, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -4, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -5, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -6, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { responsivePriority: 1,  targets: -3, render: $.fn.dataTable.render.number( '.', ',', 2, '' ) },
+            { responsivePriority: 10, targets: -4, render: $.fn.dataTable.render.number( '.', ',', 2, '' ) },
+            { responsivePriority: 10, targets: -5, render: $.fn.dataTable.render.number( '.', ',', 2, '' ) },
+            { responsivePriority: 10, targets: -6, render: $.fn.dataTable.render.number( '.', ',', 2, '' ) },
         ],
         colReorder: true,
         drawCallback: function() {
             var api = this.api();
             $(api.table().column(8).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(8,{filter:'applied'} ).data().sum())
+                $.fn.dataTable.render.number( '.', ',', 2, '' ).display(api.column(8,{filter:'applied'} ).data().sum())
             );
             $(api.table().column(9).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(9,{filter:'applied'} ).data().sum())
+                $.fn.dataTable.render.number( '.', ',', 2, '' ).display(api.column(9,{filter:'applied'} ).data().sum())
             );     
             $(api.table().column(10).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(10,{filter:'applied'} ).data().sum())
+                $.fn.dataTable.render.number( '.', ',', 2, '' ).display(api.column(10,{filter:'applied'} ).data().sum())
             );     
             $(api.table().column(11).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(11,{filter:'applied'} ).data().sum())
+                $.fn.dataTable.render.number( '.', ',', 2, '' ).display(api.column(11,{filter:'applied'} ).data().sum())
             );
 
 
