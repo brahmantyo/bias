@@ -39,6 +39,9 @@ ol.breadcrumb {
 .datatables-dropdownmenu {
 
 }
+.text-right {
+    text-align: right !important;
+}
 </style>
 @endsection
 
@@ -94,37 +97,33 @@ ol.breadcrumb {
                     @endforeach
                 @endif
                 @if(\Request::input('mode')=='adv')
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Filter : </th>
-                            <td id="fkonsumen"></td>
-                            <td id="fsales"></td>
-                            <td id="fdivisi"></td>
-                            <td id="fpayment"></td>
-                            <td id="fnota"></td>
-                            <td id="fkasir"></td>
-                        </tr>
+                <div class="box box-default col-lg-12">
+                    <span class="col-lg-2" id="fkonsumen"></span>
+                    <span class="col-lg-2" id="fsales"></span>
+                    <span class="col-lg-2" id="fdivisi"></span>
+                    <span class="col-lg-2" id="fpayment"></span>
+                    <span class="col-lg-2" id="fnota"></span>
+                    <span class="col-lg-2" id="fkasir"></span>
+                </div>
 
-                    </tbody>
                 </table>
-                <table  id="tbjual" class="table display responsive">
+                <table  id="tbjual" class="table display responsive" width="1000px">
                     <thead>
                         <tr>
-                            <th width="8"></th>
-                            <th width="12">ID Penjualan</th>
-                            <th width="12">Tgl<br/></th>
-                            <th width="30">Konsumen<br/></th>
-                            <th width="20">Sales<br/></th>
-                            <th width="18">Divisi<br/></th>
-                            <th width="12">Payment<br/></th>
-                            <th width="8">Tempo<br/></th>
-                            <th width="12">Qty</th>
-                            <th width="12">Bruto</th>
-                            <th width="12">Disc</th>
-                            <th width="12">Netto</th>
-                            <th>Keterangan<br/></th>
-                            <th width="12">Kasir<br/></th>
+                            <th width="8px"></th>
+                            <th width="12px">ID Penjualan</th>
+                            <th width="12px">Tgl<br/></th>
+                            <th width="30px">Konsumen<br/></th>
+                            <th width="20px">Sales<br/></th>
+                            <th width="100px">Divisi<br/></th>
+                            <th width="12px">Payment<br/></th>
+                            <th width="8px">Tempo<br/></th>
+                            <th width="12px">Qty</th>
+                            <th width="12px">Bruto</th>
+                            <th width="12px">Disc</th>
+                            <th width="12px">Netto</th>
+                            <th width="8px">Ket<br/></th>
+                            <th width="12px">Kasir<br/></th>
                         </tr>
                     </thead>
          
@@ -141,10 +140,10 @@ ol.breadcrumb {
                             <td>{{ $j->sales->divisi()->nama }}</td>
                             <td>{{ $j->payment }}</td>
                             <td>{{ $j->tempo }}</td>
-                            <td style="text-align:right">{{ $j->totqty }}</td>
-                            <td style="text-align:right">{{ $j->totbruto }}</td>
-                            <td style="text-align:right">{{ $j->totdiskon }}</td>
-                            <td style="text-align:right">{{ $j->totnetto }}</td>
+                            <td class="text-right">{{ $j->totqty }}</td>
+                            <td class="text-right">{{ $j->totbruto }}</td>
+                            <td class="text-right">{{ $j->totdiskon }}</td>
+                            <td class="text-right">{{ $j->totnetto }}</td>
                             <td>{{ $j->ket }}</td>
                             <td>{{ strtoupper($j->kasir) }}</td>
 
@@ -161,10 +160,10 @@ ol.breadcrumb {
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th style="text-align:right"></th>
-                            <th style="text-align:right"></th>
-                            <th style="text-align:right"></th>
-                            <th style="text-align:right"></th>
+                            <th class="text-right"></th>
+                            <th class="text-right"></th>
+                            <th class="text-right"></th>
+                            <th class="text-right"></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -206,6 +205,12 @@ ol.breadcrumb {
     var curTgl = moment(getURLParameter('tgl1')).format('DD MMMM YYYY')+' s/d '+moment(getURLParameter('tgl2')).format('DD MMMM YYYY');
     var pdfTitle = '\nTgl: '+curTgl;
 
+    function padspace(n, length) {    // fill with _
+         
+        n = ("_______________" + n).slice(-length);
+        return n;
+    }
+
     var table = $('#tbjual').DataTable({
         dom: 'Bflrtip',
         order: [[2,'desc']],
@@ -221,7 +226,8 @@ ol.breadcrumb {
                 text: 'Save to CSV',
                 title: 'Data Penjualan '+pdfTitle,
                 exportOptions: {
-                    columns: ':not(:first-child)',
+                    columns: ':visible',
+                    orthogonal: 'export',
                     modifier: {
                         filter: 'applied'
                     }
@@ -236,8 +242,8 @@ ol.breadcrumb {
                     orthogonal: 'export',
                     modifier: {
                         filter: 'applied'
-                    }
-                }
+                    },
+                },
             },
             {
                 extend: 'pdf',
@@ -246,15 +252,55 @@ ol.breadcrumb {
                 orientation: 'landscape',
                 header: true,
                 footer: true,
+                download: 'open',
                 exportOptions: {
-                    columns: ':not(:first-child)',
+                    columns: [
+                        ':visible:contains("ID Penjualan")',
+                        ':visible:contains("Tgl")',
+                        ':visible:contains("Konsumen")',
+                        ':visible:contains("Sales")',
+                        ':visible:contains("Divisi")',
+                        ':visible:contains("Payment")',
+                        ':visible:contains("Tempo")',
+                        ':visible:contains("Qty")',
+                        ':visible:contains("Bruto")',
+                        ':visible:contains("Disc")',
+                        ':visible:contains("Netto")',
+                        ':visible:contains("Ket")',
+                        ':visible:contains("Kasir")'
+                    ],
+                    modifier: {
+                        filter: 'applied'
+                    },
+                },
+
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    orthogonal: true,
+                    columns: [
+                        ':visible:contains("ID Penjualan")',
+                        ':visible:contains("Tgl")',
+                        ':visible:contains("Konsumen")',
+                        ':visible:contains("Sales")',
+                        ':visible:contains("Divisi")',
+                        ':visible:contains("Payment")',
+                        ':visible:contains("Tempo")',
+                        ':visible:contains("Qty")',
+                        ':visible:contains("Bruto")',
+                        ':visible:contains("Disc")',
+                        ':visible:contains("Netto")',
+                        ':visible:contains("Ket")',
+                        ':visible:contains("Kasir")'
+                    ],
                     modifier: {
                         filter: 'applied'
                     }
                 }
-            }
+            },
         ],
-        responsive: true,
+        responsive: false,
         columnDefs: [
             { responsivePriority: 1, targets: 0, orderable: false },
             { responsivePriority: 1, targets: 1 },
@@ -286,7 +332,6 @@ ol.breadcrumb {
             $(api.table().column(11).footer()).html(
                 $.fn.dataTable.render.number( '.', ',', 2, '' ).display(api.column(11,{filter:'applied'} ).data().sum())
             );
-
 
             yadcf.init(api.table(), 
                 [
@@ -345,9 +390,9 @@ ol.breadcrumb {
     }).columns.adjust().responsive.recalc();
 $('#reset').on('click',function(){
     table
- .search( '' )
- .columns().search( '' )
- .draw();
+    .search( '' )
+    .columns().search( '' )
+    .draw();
 });
 
 $('#tgl').daterangepicker(
@@ -364,13 +409,5 @@ function(start, end, label) {
 
 $('#tgl span').html(curTgl);
 
-$(window).on( 'resize', function () {
-    //table.fnAdjustColumnSizing();
-} );
-$('#tbjual').on( 'column-visibility.dt', function ( e, settings, column, state ) {
-    console.log(
-        'Column '+ column +' has changed to '+ (state ? 'visible' : 'hidden')
-    );
-} );
 </script>
 @endsection
