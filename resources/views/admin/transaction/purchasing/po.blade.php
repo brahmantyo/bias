@@ -58,7 +58,7 @@ ol.breadcrumb {
                 <a href="#asearch" class="btn btn-success">Advanced Search</a>
                 <button id="reset" class="btn btn-warning">Reset Filter</button>
                 <span id='asearch' style="display:none">
-                    {!! Form::open(['url'=>'/admin/purchasing/po','method'=>'GET','class'=>'form-']) !!}
+                    {!! Form::open(['url'=>'/admin/purchasing','method'=>'GET','class'=>'form-']) !!}
                     {!! Form::hidden('mode','adv') !!}
                     <div class="col-lg-12">
                             <div class="input-control">
@@ -94,51 +94,56 @@ ol.breadcrumb {
                     @endforeach
                 @endif
                 @if(\Request::input('mode')=='adv')
-                <table  id="tbjual" class="table display responsive">
+                <table  id="tbjual" class="table display responsive" width="100%">
                     <thead>
                         <tr>
                             <th width="8"></th>
-                            <th width="12">ID Penjualan</th>
+                            <th width="12">ID PO</th>
                             <th width="12">Tgl<br/></th>
-                            <th width="30">Konsumen<br/></th>
-                            <th width="12">Sales<br/></th>
+                            <th width="12">No.Kontrak</th>
+                            <th width="30">Supplier<br/></th>
                             <th width="12">Divisi<br/></th>
                             <th width="12">Payment<br/></th>
                             <th width="8">Tempo<br/></th>
+                            <th width="8">PLU</th>
+                            <th >Barang</th>
+                            <th width="12">Harga</th>
                             <th width="12">Qty</th>
-                            <th width="12">Bruto</th>
-                            <th width="12">Disc</th>
-                            <th width="12">Netto</th>
+                            <th width="20">Sub Total</th>
+                            <th width="20">Total</th>
                             <th>Keterangan<br/></th>
-                            <th width="12">Kasir<br/></th>
+                            <th width="12">DiEntry<br/></th>
                         </tr>
                     </thead>
          
                     <tbody>
-                        @foreach ($jual as $j)
-                        <tr>
+                        <?php $idpo='';?>
+                        @foreach ($po as $list)
+                        <tr {!! ($idpo!==$list->idpo)?'style="border-top:3px black solid"':'' !!} >
                             <td>
-                                <a href="/admin/penjualan/show/{{ $j->idtrx }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
-                            </td> 
-                            <td>{{ $j->idtrx }}</td>
-                            <td>{{ $j->tgl }}</td>
-                            <td>{{ $j->konsumen->nama }}</td>
-                            <td>{{ $j->sales->nama }}</td>
-                            <td>{{ $j->sales->divisi()->nama }}</td>
-                            <td>{{ $j->payment }}</td>
-                            <td>{{ $j->tempo }}</td>
-                            <td style="text-align:right">{{ $j->totqty }}</td>
-                            <td style="text-align:right">{{ $j->totbruto }}</td>
-                            <td style="text-align:right">{{ $j->totdiskon }}</td>
-                            <td style="text-align:right">{{ $j->totnetto }}</td>
-                            <td>{{ $j->ket }}</td>
-                            <td>{{ ucfirst($j->kasir) }}</td>
-
+                                <a href="/admin/purchasing/show/{{ str_replace('/','-',$list->idpo) }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+                            </td>
+                            <td>{{ $list->idpo }}</td>
+                            <td>{{ $list->tglpo }}</td>
+                            <td>{{ $list->contractno }}</td>
+                            <td>{{ $list->supplier }}</td>
+                            <td>{{ $list->nmdivisi }}</td>
+                            <td>{{ $list->bayar }}</td>
+                            <td>{{ strtoupper($list->paymentterms) }}</td>
+                            <td>{{ $list->plu }}</td>
+                            <td>{{ $list->nmbarang }}</td>
+                            <td style="text-align:right">{{ $list->hrg }}</td>
+                            <td style="text-align:right">{{ $list->qty }}</td>
+                            <td style="text-align:right">{{ $list->subtot }}</td>
+                            <td style="text-align:right">{!! ($idpo!==$list->idpo)?$list->totporeg?$list->totporeg:$list->totpokhusus:'' !!}</td>
+                            <td>{{ $list->ket }}</td>
+                            <td>{{ ucfirst($list->createdby) }}</td>
                         </tr>
+                        <?php $idpo = $list->idpo ?>
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr>
+                        <tr style="background:lightgreen">
                             <th>Total</th>
                             <th></th>
                             <th></th>
@@ -147,7 +152,9 @@ ol.breadcrumb {
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th style="text-align:right"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                             <th style="text-align:right"></th>
                             <th style="text-align:right"></th>
                             <th style="text-align:right"></th>
@@ -166,8 +173,9 @@ ol.breadcrumb {
     $('a:contains("Detail")').fancybox({
         type : 'iframe',
         href : this.value,
-        fitToView: true,
+        //fitToView: true,
         minWidth: "80%",
+        minHeight: "90%",
 //        width: 1024,
 //        height: 800,
         openSpeed: 1,
@@ -217,49 +225,57 @@ ol.breadcrumb {
                 orientation: 'landscape',
                 header: true,
                 footer: true,
+                dowload: 'open',
                 exportOptions: {
-                    columns: ':not(:first-child)',
+                    //columns: ':not(:first-child)',
+                    columns: function(idx,data){
+                        var col = table.columns().visible().toArray();
+                        return col[idx];
+                    },
                     modifier: {
                         filter: 'applied'
                     }
                 }
             }
         ],
-        responsive: true,
+        responsive: false,
         columnDefs: [
-            { responsivePriority: 1, targets: 0, orderable: false },
-            { responsivePriority: 1, targets: 1 },
-            { responsivePriority: 1, targets: 2, render: function(data){
-                return moment(data).format('DD/MM/YYYY');
+            { targets: 0, orderable: false },
+            { targets: 1 },
+            { targets: 2, orderable: false, render: function(data){
+                if(data){
+                    return moment(data).format('DD/MM/YYYY');
+                }
+                return '';
             } },
-            { responsivePriority: 2, targets: 3 },
-            { responsivePriority: 2, targets: 4 },
-            { responsivePriority: 2, targets: 5 },
-            { responsivePriority: 2, targets: -1 },
-            { responsivePriority: 2, targets: -2 },
-            { responsivePriority: 1,  targets: -3, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -4, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -5, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
-            { responsivePriority: 10, targets: -6, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { targets: 3 , orderable: false, visible:false},
+            { targets: 4, orderable: false, visible:false},
+            { targets: 5, orderable: false, visible:false },
+            { targets: 6, orderable: false, visible:false },
+            { targets: 7, orderable: false, visible:false },
+            { targets: 8, orderable: false},
+            { targets: 9, orderable: false},
+            { targets: 10, orderable: false, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { targets: 11, orderable: false, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { targets: 12, orderable: false, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { targets: 13, orderable: false, render: $.fn.dataTable.render.number( '.', ',', 0, '' ) },
+            { targets: 14, orderable: false, visible:false },
+            { targets: 15, orderable: false, visible:false },
         ],
         colReorder: true,
         drawCallback: function() {
-            var api = this.api();
-            $(api.table().column(8).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(8,{filter:'applied'} ).data().sum())
-            );
-            $(api.table().column(9).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(9,{filter:'applied'} ).data().sum())
-            );     
-            $(api.table().column(10).footer()).html(
-            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(10,{filter:'applied'} ).data().sum())
-            );     
+            var api = this.api();   
             $(api.table().column(11).footer()).html(
             $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(11,{filter:'applied'} ).data().sum())
+            );     
+            $(api.table().column(12).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(12,{filter:'applied'} ).data().sum())
+            );
+            $(api.table().column(13).footer()).html(
+            $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(13,{filter:'applied'} ).data().sum())
             );
 
-
-            yadcf.init(api.table(), 
+/*            yadcf.init(api.table(), 
                 [
                     {
                         column_number: 3,
@@ -305,9 +321,9 @@ ol.breadcrumb {
                         filter_default_label: '--Pilih Kasir--',
                         //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
                     },
-                ]);
+                ]);*/
         } 
-    }).columns.adjust().responsive.recalc();
+    }).columns.adjust();
 $('#reset').on('click',function(){
     table
  .search( '' )

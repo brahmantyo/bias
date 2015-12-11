@@ -72,7 +72,7 @@ User Manager
                 @endforeach
                 </tbody>
             </table>
-            <table  class="table display responsive">
+            <table  id="tbfooter" class="table display responsive">
                 <tbody>
                     <tr><th>Total Qty</th><th width="100">{{ $jual->totqty }}</th></tr>
                     <tr><th>Total Bruto</th><th>{{ $jual->totbruto }}</th></tr>
@@ -96,6 +96,9 @@ $('#tbdetail').DataTable({
         { responsivePriority: 1, targets: -3 },
         { responsivePriority: 1, targets: -4 },
     ]
+});
+$('#tbfooter').DataTable({
+    responsive: true,
 });
 </script>
 @endsection

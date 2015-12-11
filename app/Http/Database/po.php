@@ -14,4 +14,8 @@ class po extends Model
     {
 		return $this->hasMany('\App\Http\Database\dpo','idinduk','idpo');
     }
+    public function supp()
+    {
+    	return $this->hasOne('\App\Http\Database\supplier','idsupp','idsupp');
+    }
 }

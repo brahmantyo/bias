@@ -39,7 +39,7 @@ Route::group(['middleware'=>['auth','admin'],'prefix'=>'admin','namespace'=>'Adm
 	
 	//-- Transactions --//
 	//Route::resource('po','POController');
-	Route::controller('po','POController');
+	Route::controller('purchasing','POController');
 	Route::controller('pembelian','PembelianController');
 	Route::controller('penjualan','PenjualanController');
 	Route::group(['prefix'=>'report','namespace'=>'Report'],function(){

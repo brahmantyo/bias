@@ -60,6 +60,7 @@ ol.breadcrumb {
                 <span><h1><i class="fa fa-user-secret"></i>Penjualan {{\App\Helpers::dateFromMysqlSystem(\Request::get('tgl1')).' s/d '.\App\Helpers::dateFromMysqlSystem(\Request::get('tgl2'))}}</h1></span>
                 <a href="#asearch" class="btn btn-success">Advanced Search</a>
                 <button id="reset" class="btn btn-warning">Reset Filter</button>
+                <button id="dump" class="btn btn-danger">Dump All</button>
                 <span id='asearch' style="display:none">
                     {!! Form::open(['url'=>'/admin/penjualan','method'=>'GET','class'=>'form-']) !!}
                     {!! Form::hidden('mode','adv') !!}

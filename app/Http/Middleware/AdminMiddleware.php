@@ -73,7 +73,7 @@ class AdminMiddleware {
             $menu->item('master')->add('Sales','admin/sales')->data('permission','menu_sales');
 
             $menu->add('Transaksi')->data('permission','root_menu_transaksi');
-                $menu->item('transaksi')->add('Purchase Order','admin/po')->data('permission','menu_po');
+                $menu->item('transaksi')->add('Purchase Order','admin/purchasing')->data('permission','menu_po');
                 $menu->item('transaksi')->add('Pembelian','admin/pembelian')->data('permission','menu_pembelian');
                 $menu->item('transaksi')->add('Penjualan','admin/penjualan')->data('permission','menu_penjualan');
 
