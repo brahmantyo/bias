@@ -94,6 +94,16 @@ ol.breadcrumb {
                     @endforeach
                 @endif
                 @if(\Request::input('mode')=='adv')
+                <div class="box box-default col-lg-12">
+                    <span class="col-lg-3" id="fpo"></span>
+                    <span class="col-lg-3" id="fsupplier"></span>
+                    <span class="col-lg-3" id="fkontrak"></span>
+                    <span class="col-lg-3" id="fdivisi"></span>
+                    <span class="col-lg-3" id="fpayment"></span>
+                    <span class="col-lg-3" id="fplu"></span>
+                    <span class="col-lg-3" id="fket"></span>
+                    <span class="col-lg-3" id="fadmin"></span>
+                </div>
                 <table  id="tbjual" class="table display responsive" width="100%">
                     <thead>
                         <tr>
@@ -136,8 +146,8 @@ ol.breadcrumb {
                             <td style="text-align:right">{{ $list->qty }}</td>
                             <td style="text-align:right">{{ $list->subtot }}</td>
                             <td style="text-align:right">{!! ($idpo!==$list->idpo)?$list->totporeg?$list->totporeg:$list->totpokhusus:'' !!}</td>
-                            <td>{{ $list->ket }}</td>
-                            <td>{{ ucfirst($list->createdby) }}</td>
+                            <td>{{ strtoupper($list->ket) }}</td>
+                            <td>{{ strtoupper(ucfirst($list->createdby)) }}</td>
                         </tr>
                         <?php $idpo = $list->idpo ?>
                         @endforeach
@@ -275,27 +285,37 @@ ol.breadcrumb {
             $.fn.dataTable.render.number( '.', ',', 0, '' ).display(api.column(13,{filter:'applied'} ).data().sum())
             );
 
-/*            yadcf.init(api.table(), 
+            yadcf.init(api.table(), 
                 [
+                    {
+                        column_number: 1,
+                        filter_type: 'multi_select',
+                        select_type: 'chosen',
+                        filter_container_id: 'fpo',
+                        filter_default_label: '--Pilih PO--',
+                        //data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
+                    },
                     {
                         column_number: 3,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        filter_default_label: '--Pilih Konsumen--',
-                        filter_reset_button_text: false
-                        //data: $.makeArray(api.column(3,{filter:'applied'} ).data().sort().unique())
+                        filter_container_id: 'fkontrak',
+                        filter_default_label: '--Pilih Kontrak--',
+                        //data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 4,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        filter_default_label: '--Pilih Sales--',
+                        filter_container_id: 'fsupplier',
+                        filter_default_label: '--Pilih Supplier--',
                         //data: $.makeArray(api.column(4,{filter:'applied'} ).data().sort().unique())
                     },
                     {
                         column_number: 5,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fdivisi',
                         filter_default_label: '--Pilih Divisi--',
                         //data: $.makeArray(api.column(5,{filter:'applied'} ).data().sort().unique())
                     },
@@ -303,25 +323,37 @@ ol.breadcrumb {
                         column_number: 6,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
+                        filter_container_id: 'fpayment',
                         filter_default_label: '--Pilih Payment--',
                         //data: $.makeArray(api.column(6,{filter:'applied'} ).data().sort().unique())
                     },
                     {
-                        column_number: 12,
+                        column_number: 7,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
-                        filter_default_label: '--Pilih Nota--',
+                        filter_container_id: 'fplu',
+                        filter_default_label: '--Pilih PLU--',
                         //data: $.makeArray(api.column(12,{filter:'applied'} ).data().sort().unique())
                     },
                     {
-                        column_number: 13,
+                        column_number: 14,
                         filter_type: 'multi_select',
                         select_type: 'chosen',
                         filter_match_mode: 'contains',
-                        filter_default_label: '--Pilih Kasir--',
+                        filter_container_id: 'fket',
+                        filter_default_label: '--Pilih Keterangan--',
                         //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
                     },
-                ]);*/
+                    {
+                        column_number: 15,
+                        filter_type: 'multi_select',
+                        select_type: 'chosen',
+                        filter_match_mode: 'contains',
+                        filter_container_id: 'fadmin',
+                        filter_default_label: '--Pilih Admin--',
+                        //data: $.makeArray(api.column(13,{filter:'applied'} ).data().sort().unique())
+                    },
+                ]);
         } 
     }).columns.adjust();
 $('#reset').on('click',function(){
