@@ -79,7 +79,7 @@ class AdminMiddleware {
 
             $menu->add('Report')->data('permission','root_menu_report');
                 $menu->item('report')->add('Purchasing')->data('permission','menu_report_purchasing');
-                    $menu->item('purchasing')->add('Monitoring PO','admin/monitoringpo')->data('permission','menu_monitoring_po');
+                    $menu->item('purchasing')->add('Monitoring PO','admin/report/po')->data('permission','menu_monitoring_po');
                     //$menu->item('purchasing')->add('Monitoring Kontrak','admin/monitoringkontrak')->data('permission','menu_monitoring_kontrak');
                     //$menu->item('purchasing')->add('Monitoring Stock','admin/report/stock')->data('permission','menu_monitoring_stock');
                 $menu->item('report')->add('Inventory')->data('permission','menu_report_inventory');
