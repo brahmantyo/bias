@@ -1,75 +1,71 @@
-@extends('app')
+@extends('app-modal')
 @section('content-header')
 <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i>Home</a></li>
-    <li class="active">Monitoring PO</li>
+    <li class="active"><i class="fa fa-users"></i>Pembelian</li>
 </ol>
 @endsection
+ 
 @section('content')
 <div class="row">
-	<div class="col-lg-12">
-		<div class="box">
-			<div class="box-header">
-		    	<span><h1><i class="fa fa-share-alt"></i>Monitoring Purchase Order</h1></span>
-				<span class="pull-left">
-					<div class="col-sm-4">
-						{!! Form::open(['url'=>'/admin/monitoringpo/date','method'=>'GET','class'=>'form-inline']) !!}
-						<div class="form-group">
-							<div class="input-group">
-								{!! Form::text('date',old('date'),['class'=>'form-control input-group-addon ']) !!}
-								<span class="input-group-btn">
-									{!! Form::submit('Search By Day',['class'=>'btn btn-success']) !!}
-								</span>
-							</div>
-						</div>
-						{!! Form::close() !!}
-					</div>
-				</span>
-		 	</div>
-            @if ($errors->has())
-                @foreach ($errors->all() as $error)
-                <div class='bg-danger alert'>{!! $error !!}</div>
-                @endforeach
-            @endif
-		 	<div class="box-body table-responsive">
-		        <table class="table table-condensed table-striped table-bordered table-hover no-margin">
-					<thead>
-						<tr style="font-weight: bold;text-align:center">
-							<td rowspan="2">YEAR</td>
-							<td rowspan="2">MONTH</td>
-							<td rowspan="2">TARGET</td>
-							<td colspan="3">PO</td>
-							<td colspan="3">REALISASI</td>
-							<td rowspan="2">SALDO BUDGET</td>
-						</tr>
-						<tr style="font-weight: bold; text-align:center">
-							<td>PO STOCK</td>
-							<td>PO KHUSUS</td>
-							<td>TOTAL</td>
-							<td>PO STOCK</td>
-							<td>PO KHUSUS</td>
-							<td>TOTAL</td>
-						</tr>
-					</thead>
-   		        	<tbody>
-   		        		@foreach($mpo as $l)
-   		        		<tr>
-   		        			<td>{{ $l->tahun }}</td>
-   		        			<td>{{ \App\Helpers::month($l->bulan,'l') }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->vtarget) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->tporeg) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->tpokhusus) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->tporeg + $l->tpokhusus) }}</td>   		        			
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->trealreg) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->trealkhusus) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->trealreg + $l->trealkhusus) }}</td>
-   		        			<td style="text-align:right">{{ \App\Helpers::currency($l->vtarget - ($l->trealreg + $l->trealkhusus)) }}</td>
-   		        		</tr>
-   		        		@endforeach
-   		        	</tbody>
-		        </table>
-		    </div>
-	 	</div>
-	</div>
+    <div class="col-lg-12">
+        <div class="box">
+            <div class="box-header">
+                <span><h1><i class="fa fa-user-secret"></i>Pembelian</h1></span>               
+            </div>
+            <div class="box-body table-responsive">
+                @if ($errors->has())
+                    @foreach ($errors->all() as $error)
+                        <div class='bg-danger alert'>{{ $error }}</div>
+                    @endforeach
+                @endif
+                <table class="table table-condensed table-striped table-bordered table-hover no-margin">
+                    <thead>
+                        <tr>
+                            <th>ID Pembelian</th>
+                            <th>ID PO</th>
+                            <th>Tgl</th>
+                            <th>Supplier</th>
+                            <th width="200"></th>
+                        </tr>
+                    </thead>
+         
+                    <tbody>
+                        @foreach ($beli as $b)
+                        <tr>
+                            <td>{{ $b->idbeli }}</td>
+                            <td>{{ $b->idpo }}</td>
+                            <td>{{ $b->tglbeli }}</td>
+                            <td>{{ $b->supplier->nama }}</td>
+                            <td>
+                                <a href="/admin/pembelian/show/{{ $b->idbeli }}" class="btn btn-success pull-right" style="margin-right: 3px;">Detail</a>
+<!--                                 <a href="/admin/pembelian/{{ $b->idbeli }}/edit" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
+                                {!! Form::open(['url' => '/admin/pembelian/' . $b->idbeli, 'method' => 'DELETE']) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                {!! Form::close() !!}
+ -->                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script type="text/javascript">
+    $('a:contains("Detail")').fancybox({
+        type : 'iframe',
+        href : this.value,
+        autoSize: false,
+        width: 1024,
+        height: 800,
+        openSpeed: 1,
+        closeSpeed: 1,
+        ajax : {
+            dataType : 'html',
+        },
+        //afterClose : function(){ window.location.replace('/admin/pembelian') },
+    });
+</script>
 @endsection

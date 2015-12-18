@@ -144,7 +144,7 @@ ol.breadcrumb {
    		        			<td style="background:#ae9aab">{{ $m->qtybeli?$m->satbeli:'' }}</td>
    		        			<td style="background:#ae9aab">{{ round(($m->qtybeli?$m->valbeli:0),2) }}</td>
    		        			<td style="background:#ae9aab">
-   		        				<a href="/admin/report/realisasibypo/{{ $m->idpo }}" class="btn btn-small btn-success">
+   		        				<a href="/admin/report/pembelian/show/{{ str_replace('/','-',$m->idpo) }}" class="btn btn-small btn-success">
    		        				Detail
    		        				</a>
    		        			</td>
@@ -235,6 +235,22 @@ $(document).ready(function(){
 	    },
 	});
 	},0);
+
+    $('a:contains("Detail")').fancybox({
+        type : 'iframe',
+        href : this.value,
+        //fitToView: true,
+        minWidth: "80%",
+        minHeight: "90%",
+//        width: 1024,
+//        height: 800,
+        openSpeed: 1,
+        closeSpeed: 1,
+        ajax : {
+            dataType : 'html',
+        },
+        //afterClose : function(){ window.location.replace('/admin/penjualan') },
+    });
 });
 </script>
 @endsection
