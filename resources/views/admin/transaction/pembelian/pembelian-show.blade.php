@@ -32,34 +32,67 @@ User Manager
             <table  class="table table-condensed table-striped table-bordered table-hover no-margin">
                 <thead>
                     <tr>
+                        <th>Divisi</th>
                         <th>PLU</th>
+                        <th>SKU</th>
                         <th>Qty Unit</th>
                         <th>Hrg Unit</th>
                         <th>Qty Pjg</th>
                         <th>Hrg Pjg</th>
                         <th>Qty Berat</th>
                         <th>Hrg Berat</th>
-                        <th>SKU</th>
-                        <th>Divisi</th>
                         <th>Titip Jual</th>
                     </tr>
                 </thead>
                 <tbody>
+                <?php 
+                    $count = 0;
+                    $tqtyunit = 0;
+                    $tqtypjg = 0;
+                    $tqtybrt = 0;
+                    $thrgunit = 0;
+                    $thrgpjg = 0;
+                    $thrgbrt = 0;
+
+                ?>
                 @foreach($beli->detail as $db)
+
                     <tr>
+                        <td>{{$db->getdivisi->nama}}</td>
                         <td>{{$db->plu}}</td>
+                        <td>{{$db->sku}}</td>
                         <td>{{$db->qtyunit}}</td>
                         <td>{{$db->hrgunit}}</td>
                         <td>{{$db->qtypjg}}</td>
                         <td>{{$db->hrgpjg}}</td>
                         <td>{{$db->qtybrt}}</td>
                         <td>{{$db->hrgbrt}}</td>
-                        <td>{{$db->sku}}</td>
-                        <td>{{$db->getdivisi->nama}}</td>
                         <td>{!! Form::checkbox('','',$db->konsi,['disabled']) !!}</td>
                     </tr>
+                    <?php
+                        $count++;
+                        $tqtyunit += $db->qtyunit;
+                        $tqtypjg += $db->qtypjg;
+                        $tqtybrt += $db->qtybrt;
+                        $thrgunit += $db->hrgunit;
+                        $thrgpjg += $db->hrgpjg * $db->qtypjg;
+                        $thrgbrt += $db->hrgbrt * $db->qtybrt;
+                    ?>
                 @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th>{{ $tqtyunit }}</th>
+                        <th>{{ $thrgunit }}</th>
+                        <th>{{ $tqtypjg }}</th>
+                        <th>{{ $thrgpjg }}</th>
+                        <th>{{ $tqtybrt }}</th>
+                        <th>{{ $thrgbrt }}</th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

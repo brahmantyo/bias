@@ -240,7 +240,7 @@ $(document).ready(function(){
         type : 'iframe',
         href : this.value,
         //fitToView: true,
-        minWidth: "80%",
+        minWidth: "90%",
         minHeight: "90%",
 //        width: 1024,
 //        height: 800,
